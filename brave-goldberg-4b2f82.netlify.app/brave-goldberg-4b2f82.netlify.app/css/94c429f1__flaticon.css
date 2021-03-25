@@ -1,0 +1,43 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 02/09/2019 07:46
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url(./%22fonts87a3ca8b__Flaticon.eot);
+  src: url(./%22fonts25761f36__Flaticon.eot) format("embedded-opentype"),
+       url(./%22fontsdcd1b9fa__Flaticon.woff2) format("woff2"),
+       url(./%22fontsb517540d__Flaticon.woff) format("woff"),
+       url(./%22fontsab646e76__Flaticon.ttf) format("truetype"),
+       url(./8b896447__Flaticon.svg) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url(./%22fonts23b4ca27__Flaticon.svg) format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+font-style: normal;
+}
+
+.flaticon-clock:before { content: "\f100"; }
+.flaticon-scissors:before {
+   /*content: "\f101"; */
+  }
+.flaticon-placeholder:before { content: "\f102"; }
+.flaticon-phone-call:before { content: "\f103"; }
+.flaticon-paper-plane:before { content: "\f104"; }
+/*!
+* AerWebCopy Engine [version 6.3.0]
+* Copyright Aeroson Systems & Co.
+* File mirrored from https://brave-goldberg-4b2f82.netlify.app/css/flaticon.css
+* At UTC time: 2021-03-25 09:40:37.370735
+*/
