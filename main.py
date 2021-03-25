@@ -17,6 +17,7 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 for url in urls: 
     driver.get(url)
     element= driver.find_element_by_tag_name('body')
+    #infinite scroll
     element.send_keys(Keys.END)
     web_scraping.sourceCodeDownloader(url,downlaod_path)
     #web_scraping.imagedown(url)

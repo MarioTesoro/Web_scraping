@@ -6,8 +6,11 @@ from urllib.parse import ParseResult
 import pywebcopy
 import pathlib
 import cssutils 
+import re
 #from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
+
+
 
 def parseUrl(url):
     parsed_url = urllib.parse.urlparse(url)
@@ -34,10 +37,10 @@ def imagedown(url):
         print('link: ',link)
         print('alt',alt)
 
-        """ with open(str(name) + '.jpg', 'wb') as f:
+        """with open(str(name) + '.jpg', 'wb') as f:
             im = requests.get(link)
             f.write(im.content)
-            print('Writing: ', name) """
+            print('Writing: ', name)"""
         i=i+1
 
 #Main
@@ -58,7 +61,6 @@ def sourceCodeDownloader(url,download_path):
         return False
     return True
 
-
 def cssParseURL(url,download_path):
     folderName = parseUrl(url)
     parser = cssutils.CSSParser()
@@ -67,4 +69,9 @@ def cssParseURL(url,download_path):
         css_sheet_path=css_path +"/"+ filename
         print(css_sheet_path)
         sheet = parser.parseFile(css_sheet_path,'ascii')
-        print(sheet.cssText)
+        stringedSheet=str(sheet.cssText)
+        urls = re.findall("url\(.+?\)",stringedSheet)
+        print(urls)
+        print('--------------------------------------------------------------------------------------')
+
+#cssParseURL('https://brave-goldberg-4b2f82.netlify.app',getDownloadPath())
