@@ -1,26 +1,25 @@
-import web_scraping
+import funcs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import os
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 
 #url = input("Type website url: ")
-def getDownloadPath():
-    download_path = os.path.dirname(os.path.realpath(__file__))
-    return download_path
-
 print("Web scraping analyisis")
-urls=['https://brave-goldberg-4b2f82.netlify.app']
-downlaod_path= getDownloadPath()
-driver = webdriver.Chrome(ChromeDriverManager().install())
+urls=['https://brave-goldberg-4b2f82.netlify.app'] #'https://unsplash.com/'
+downlaod_path = funcs.getDownloadPath()
+print(downlaod_path)
+#driver = webdriver.Chrome(ChromeDriverManager().install())
 for url in urls: 
-    driver.get(url)
-    element= driver.find_element_by_tag_name('body')
-    #infinite scroll
-    element.send_keys(Keys.END)
-    web_scraping.sourceCodeDownloader(url,downlaod_path)
-    #web_scraping.imagedown(url)
-        
-
-driver.close()
+    #driver.get(url)
+    #element= driver.find_element_by_tag_name('body')
+    #element.send_keys(Keys.END)
+    #downlaod source code
+    #funcs.sourceCodeDownloader(url,downlaod_path)
+    #css analisis
+    #sheets = funcs.findCssSheets(url)
+    #funcs.cssParseURLS(url,downlaod_path)
+    #downlaod files
+    htmlSheets = funcs.HTMLparser(url)
+    #close driver
+    #driver.close()    
