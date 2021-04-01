@@ -7,7 +7,7 @@ import pywebcopy
 import pathlib
 import cssutils
 import re
-import time
+import time    
 
 def getDownloadPath():
     download_path = os.path.dirname(os.path.realpath(__file__))
@@ -29,9 +29,9 @@ def HTMLparser(page,url):
         pass
     os.chdir(os.path.join(os.getcwd(), folder))
     soup = BeautifulSoup(page, 'html.parser')
-    aTag = soup.find_all('a')
+    soup.fin
     images = soup.find_all('img',alt=True)
-    aTags =soup.findAll('a')
+    #aTags =soup.findAll('a')
     i=0
     for image in images:  
         link = image['src']
@@ -77,18 +77,24 @@ def resourcesDown(url,counter):
             format= '.mp4'
         elif('svg' in filename):
             format='.svg'
+            """elif('html' in filename):
+                format='.html'"""
         else:
-            format ='.jpg'
+            format =None #.jpg
             
         if(format !=None):
             stringedCounter = str(counter)
             print(stringedCounter + format)
-            """with open(stringedCounter + format, 'wb') as f:
-                    f.write(im.content)
-                    print('Writing: ', stringedCounter + format)
-                    f.close"""
+            try:
+                with open(stringedCounter + format, 'wb') as f:
+                        f.write(im.content)
+                        print('Writing: ', stringedCounter + format)
+                        f.close
+            except:
+                print(stringedCounter)
+                pass
     else:
-        print(im.status_code)     
+        print("URL: %s " +str(im.status_code),url)     
     return True
    
 
