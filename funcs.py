@@ -92,6 +92,7 @@ def resourcesDown(url,counter):
                         f.close
             except:
                 print(stringedCounter)
+                #scrivere un file di log
                 pass
     else:
         print("URL: %s " +str(im.status_code),url)     

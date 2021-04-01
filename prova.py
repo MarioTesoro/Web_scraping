@@ -84,16 +84,9 @@ def finder(page,url):
         #formatting url
         print('link:',link)
         print('alt',alt)
-        if link!=None:
-            if (link[:5] == "http:" ) or (link[:6] =="https:"):
-                htmlPath.add(link)
-                alts.add(alt)
-            elif(link[:1]== "/"):
-                htmlPath.add(url+link)
-                alts.add(alt)
-            else:
-                htmlPath.add(link)
-                alts.add(alt)
+        link = checkURLformat(url,link)
+        htmlPath.add(link)
+        alts.add(alt)
 
     #funzioni
     aTags = soup.findAll(href=True)
@@ -101,13 +94,19 @@ def finder(page,url):
     for aTag in aTags:
         href = aTag['href']
         print("href: "+ str(href))
-        if (href[:5] == "http:" ) or (href[:6] =="https:"):
-            htmlPath.add(href)
-        elif(href[:1]== "/"):
-            htmlPath.add(url+href)
-        else:
-            htmlPath.add(href)
+        href = checkURLformat(url,href)
+        htmlPath.add(href)
 
     #print(htmlPath)
     return htmlPath,alts
+
+def checkURLformat(url,link):
+    if link!=None:
+        if (link[:5] == "http:" ) or (link[:6] =="https:"):
+            return link
+        elif(link[:1]== "/"):
+            return url+link
+        else:
+            return link
+
     

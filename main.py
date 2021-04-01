@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 #url = input("Type website url: ")
 print("Web scraping analyisis")
-#https://www.ansa.it/
+#https://www.ansa.it/ #vanno accettati i cookies
 urls=['https://www.ansa.it/']#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 cssURLS= set()
 htmlURLS = set()
@@ -19,9 +19,11 @@ print(downlaod_path)
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 for url in urls:
+    cookies = dict(BCPermissionLevel='PERSONAL')
     urlPath= urlparse(url)
     print(urlPath)
     driver.get(url)
+    driver.add_cookie(cookies)
     driver.maximize_window()
     print(len(str(driver.page_source)))
     try:
