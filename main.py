@@ -19,11 +19,11 @@ print(downlaod_path)
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 for url in urls:
-    cookies = dict(BCPermissionLevel='PERSONAL')
+    
     urlPath= urlparse(url)
     print(urlPath)
     driver.get(url)
-    driver.add_cookie(cookies)
+ 
     driver.maximize_window()
     print(len(str(driver.page_source)))
     try:

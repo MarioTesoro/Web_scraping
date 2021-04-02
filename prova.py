@@ -96,6 +96,22 @@ def finder(page,url):
         print("href: "+ str(href))
         href = checkURLformat(url,href)
         htmlPath.add(href)
+    
+    videoTags = soup.findAll('video')
+    print(videoTags)
+    for videoTag in videoTags:
+        vdSrc=videoTag.get('src')
+        if vdSrc:
+            videoAlt= videoTag.get('alt','')
+        elif vdSrc==None:
+            continue
+        else:
+            print('new video tag')
+        #per i video?
+        vdSrc = checkURLformat(url,vdSrc)
+        print("videooooo: ",vdSrc)
+        htmlPath.add(vdSrc)
+        alts.add(videoAlt)
 
     #print(htmlPath)
     return htmlPath,alts
