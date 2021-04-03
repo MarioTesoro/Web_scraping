@@ -87,8 +87,8 @@ def resourcesDown(url,counter):
             print(stringedCounter + format)
             try:
                 with open(stringedCounter + format, 'wb') as f:
-                        f.write(im.content)
                         print('Writing: ', stringedCounter + format)
+                        f.write(im.content) 
                         f.close
             except:
                 print(stringedCounter)

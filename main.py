@@ -6,6 +6,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import os
 from urllib.parse import urlparse
+import time
+
+
+
+#misurazione dei tempi
+start_time = time.time()
 
 #url = input("Type website url: ")
 print("Web scraping analyisis")
@@ -42,7 +48,7 @@ for url in urls:
             for sheetURL in sheets:
                 print(sheetURL)
                 cssURLS.update(funcs.cssParser(sheetURL,url)) 
-                print(len(cssURLS))
+                print(cssURLS)
                 print("---------------------------------------------------------------------\n")
         else:
             print("css not found")
@@ -66,5 +72,6 @@ for url in urls:
     finally:
         print("ciao")
         #close driver
-        driver.close()    
+        driver.close()
+        print("--- %s seconds ---" % (time.time() - start_time))    
         

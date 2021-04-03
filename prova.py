@@ -68,6 +68,9 @@ def finder(page,url):
     os.chdir(os.path.join(os.getcwd(), folder))
     soup = BeautifulSoup(page, 'html.parser')
     i=0
+    if(url.endswith("/")):
+        url=url[:-1]
+        print("urlll",url)
     images = soup.find_all('img',alt=True,recursive=True)
     for image in images:
         link=None
@@ -82,9 +85,9 @@ def finder(page,url):
         else:
             print('new tag')
         #formatting url
+        link = checkURLformat(url,link)
         print('link:',link)
         print('alt',alt)
-        link = checkURLformat(url,link)
         htmlPath.add(link)
         alts.add(alt)
 
@@ -112,7 +115,6 @@ def finder(page,url):
         print("videooooo: ",vdSrc)
         htmlPath.add(vdSrc)
         alts.add(videoAlt)
-
     #print(htmlPath)
     return htmlPath,alts
 
@@ -120,9 +122,17 @@ def checkURLformat(url,link):
     if link!=None:
         if (link[:5] == "http:" ) or (link[:6] =="https:"):
             return link
+        elif (link[:2]== "//"):
+            link = url+link[:1]
         elif(link[:1]== "/"):
-            return url+link
+            link= url+link
+        elif(link[:3] == "../"):
+            link = url+"/"+link[3:]
+        elif(link[:2] =="./"):
+            link =url+"/"+link[2:]
         else:
-            return link
+            print("else",link)
+        print(link)
+        return link 
 
     
