@@ -16,7 +16,7 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://www.ansa.it/']#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 cssURLS= set()
 htmlURLS = set()
 alts = set()
@@ -40,24 +40,24 @@ for url in urls:
         #print(result)
         funcs.scroll(driver,loadingTime,safetytime)
         page = driver.page_source
-        #print(len(str(page)))
-        # check pagination
         sheets = funcs.findCssSheets(url,page)
-        #print(len(sheets))
+        print(sheets)
+        
         if(len(sheets)> 0):
             for sheetURL in sheets:
                 print(sheetURL)
                 cssURLS.update(funcs.cssParser(sheetURL,url)) 
-                print(cssURLS)
                 print("---------------------------------------------------------------------\n")
+            print(cssURLS)
         else:
             print("css not found")
+        
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
         htmlURLS,alts = prova.finder(page,url)
         #join set() css e html
+        
         htmlURLS.update(cssURLS)
-        print(len(htmlURLS))
         print("---------------------------------------------------------------------\n")
         print(alts)
         counter=1
@@ -67,6 +67,7 @@ for url in urls:
             except:
                 print("exception")
             counter=counter+1
+        print("lunghezza. ",len(htmlURLS))
     except Exception as e:
         print(e.__cause__)
     finally:

@@ -18,49 +18,6 @@ def parseUrl(url):
     print(parsed_url.netloc)
     return parsed_url.netloc
 
-def HTMLparser(page,url):
-    print("Beginning html parsing")
-    htmlPath = set()
-    alts = set()
-    folder=parseUrl(url)
-    try:
-        os.mkdir(os.path.join(os.getcwd(), folder))
-    except:
-        pass
-    os.chdir(os.path.join(os.getcwd(), folder))
-    soup = BeautifulSoup(page, 'html.parser')
-    soup.fin
-    images = soup.find_all('img',alt=True)
-    #aTags =soup.findAll('a')
-    i=0
-    for image in images:  
-        link = image['src']
-        print('link: ',link)
-        alt = image.get('alt','')
-        print('alt',alt)
-        if (link[:5] == "http:" ) or (link[:6] =="https:"):
-            htmlPath.add(link)
-            alts.add(alt)
-        elif(link[:1]== "/"):
-            htmlPath.add(url+link)
-            alts.add(alt)
-        else:
-            htmlPath.add(link)
-            alts.add(alt)
-    #funzioni
-    """for aTag in aTags:
-        href = aTag['href']
-        print("href: "+ str(href))
-        if (link[:5] == "http:" ) or (link[:6] =="https:"):
-            htmlPath.add(link)
-        elif(link[:1]== "/"):
-            htmlPath.add(url+link)
-        else:
-            htmlPath.add(link)"""
-
-    print(htmlPath)
-    return htmlPath,alts
-
 def resourcesDown(url,counter):
     im = requests.get(url)
     if(im.ok):
@@ -77,10 +34,12 @@ def resourcesDown(url,counter):
             format= '.mp4'
         elif('svg' in filename):
             format='.svg'
+        elif('gif' in filename):
+            format='.gif'
             """elif('html' in filename):
                 format='.html'"""
         else:
-            format =None #.jpg
+            format ='jpg' #.jpg
             
         if(format !=None):
             stringedCounter = str(counter)
@@ -129,6 +88,9 @@ def cssParseURLS(url,download_path):
         """
         
 def findCssSheets(url,page):
+    if(url.endswith("/")):
+        url=url[:-1]
+        print("urlll",url)
     soup = BeautifulSoup(page, 'html.parser')
     cssPath = set()
     links = soup.find_all('link')
@@ -136,10 +98,14 @@ def findCssSheets(url,page):
     for link in links:
         href = link.attrs.get("href")
         if('.css' in href):  
-            if ("http:" in href) or ("https:" in href):
+            if (href[:5] == "http:" ) or (href[:6] =="https:"):
                 cssPath.add(href)
-            else:
-                cssPath.add(url+"/"+href)
+            elif (href[:2]== "//"):
+                href = url+href[:1]
+                cssPath.add(href)
+            elif(href[:1]== "/"):
+                href= url+href
+                cssPath.add(href)
             #print(cssPath)
     return cssPath
 
@@ -174,6 +140,9 @@ def scroll(driver , timeout,safetytime):
             last_height = new_height
 
 def cssParser(sheetURL,mainURL):
+    if(mainURL.endswith("/")):
+        mainURL=mainURL[:-1]
+        print("urlll",mainURL)
     r = requests.get(sheetURL)
     css = r.content
     urls = []
@@ -187,4 +156,8 @@ def cssParser(sheetURL,mainURL):
             cssURLS.add(mainURL+"/"+res[3:])
         elif(res[:2] =="./"):
             cssURLS.add(mainURL+"/"+res[2:])
+        elif (res[:2]== "//"):
+            cssURLS.add(mainURL+res[:1])
+        elif(res[:1]== "/"):
+            cssURLS.add(mainURL+res)
     return cssURLS
