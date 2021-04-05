@@ -17,15 +17,15 @@ start_time = time.time()
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
 urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
-cssURLS= set()
-htmlURLS = set()
-alts = set()
+
 downlaod_path = funcs.getDownloadPath()
 print(downlaod_path)
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 for url in urls:
-    
+    cssURLS= set()
+    htmlURLS = set()
+    alts = set()
     urlPath= urlparse(url)
     print(urlPath)
     driver.get(url)
@@ -36,10 +36,10 @@ for url in urls:
         element = driver.find_element_by_tag_name('body')
         safetytime = 30
         loadingTime= 10
-        #result =prova.pagination(driver,urlPath)
-        #print(result)
         funcs.scroll(driver,loadingTime,safetytime)
         page = driver.page_source
+        #result =prova.pagination(driver,urlPath)
+        #print(result)
         sheets = funcs.findCssSheets(url,page)
         print(sheets)
         
