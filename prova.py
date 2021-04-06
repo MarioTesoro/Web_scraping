@@ -119,7 +119,7 @@ def finder(page,url):
             print('new video tag')
         #per i video?
         vdSrc = checkURLformat(url,vdSrc)
-        print("videooooo: ",vdSrc)
+        print("video: ",vdSrc)
         htmlPath.add(vdSrc)
         alts.add(videoAlt)
     #print(htmlPath)
@@ -142,7 +142,7 @@ def checkURLformat(url,link):
         print(link)
         return link
 
-
+"""
 def HTMLparser(page,url):
     print("Beginning html parsing")
     htmlPath = set()
@@ -187,7 +187,6 @@ def HTMLparser(page,url):
         else:
             print('new tag')
         
-    """
     images = soup.find_all('img',alt=True,recursive=True)
     for image in images:
         link=None
@@ -232,7 +231,8 @@ def HTMLparser(page,url):
         print("videooooo: ",vdSrc)
         htmlPath.add(vdSrc)
         alts.add(videoAlt)
-        """
+
     return htmlPath,alts
+    """
 
     
