@@ -20,8 +20,10 @@ urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']#'ht
 
 #downlaod_path = funcs.getDownloadPath()
 #print(downlaod_path)
-driver = webdriver.Chrome(ChromeDriverManager().install())
-
+try:
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+except:
+    print("Controlla la connessione internet")
 for url in urls:
     cssURLS= set()
     htmlURLS = set()
@@ -83,5 +85,5 @@ for url in urls:
         #chiusura driver
         driver.close()
         #fine misurazione tempi e stampa per eventuali test
-        print("--- %s seconds ---" % (time.time() - start_time))    
+        print("--- %s seconds ---" % (time.time() - start_time))
         
