@@ -2,44 +2,55 @@ import pywebcopy
 import requests
 from utils.Utils import *
 import os
+from model.resource import *
 class Downloader:
-    
-    def resourcesDown(self,url,counter):
-        im = requests.get(url)
-        if(im.ok):
-            format = None
-            filename = os.path.basename(url)
-            print("Filename: "+filename)
-            if('jpg' in filename):
-                format ='.jpg'
-            elif('png' in filename):
-                format ='.png'
-            elif('jpeg' in filename):
-                format ='.jpeg'
-            elif('mp4' in filename):
-                format= '.mp4'
-            elif('svg' in filename):
-                format='.svg'
-            elif('gif' in filename):
-                format='.gif'
+
+    def resourcesDown(self,resource : Resource,counter):
+        url =resource.getUrl()
+        print(url)
+        if(url!=None):
+            im = requests.get(url)
+            if(im.ok):
+                format = None
+                filename = os.path.basename(url)
+                resource.setFileName(filename)
+                resource.setStatus(im.status_code)
+                print("Filename: "+filename)
+                if('jpg' in filename):
+                    format ='.jpg'
+                elif('png' in filename):
+                    format ='.png'
+                elif('jpeg' in filename):
+                    format ='.jpeg'
+                elif('mp4' in filename):
+                    format= '.mp4'
+                elif('svg' in filename):
+                    format='.svg'
+                elif('gif' in filename):
+                    format='.gif'
+                else:
+                    format ='jpg' #.jpg
+                        
+                if(format !=None):
+                    resource.setFormat(format)
+                    stringedCounter = str(counter)
+                    print(stringedCounter + format)
+                    try:
+                        with open(stringedCounter + format, 'wb') as f:
+                                print('Writing: ', stringedCounter + format)
+                                f.write(im.content) 
+                                f.close
+                                resource.getNewFilename(stringedCounter + format)
+                    except:
+                        print(stringedCounter)
+                            #scrivere un file di log
+                        pass
             else:
-                format ='jpg' #.jpg
-                    
-            if(format !=None):
-                stringedCounter = str(counter)
-                print(stringedCounter + format)
-                try:
-                    with open(stringedCounter + format, 'wb') as f:
-                            print('Writing: ', stringedCounter + format)
-                            f.write(im.content) 
-                            f.close
-                            counter=counter+1
-                except:
-                    print(stringedCounter)
-                        #scrivere un file di log
-                    pass
+                resource.setStatus(im.status_code)
+                print("URL: %s " +str(im.status_code),url)   
         else:
-            print("URL: %s " +str(im.status_code),url)     
+            print("None")
+            #not donwoloaded  
         return counter
         
 

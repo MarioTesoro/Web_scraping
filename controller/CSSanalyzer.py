@@ -1,11 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-
+from model.webpageInfo import *
+from model.resource import *
 
 class CSSanalyzer:
-    def __init__(self):
-        super().__init__()    
+    webpageInfo = WebpageInfo()    
 
     def findCssSheets(self,url,page):
             if(url.endswith("/")):
@@ -42,17 +42,20 @@ class CSSanalyzer:
             #stringedSheet = str(css)
             urls = re.findall('url\(([^)]+)\)',str(css))
             for res in urls:
+                r = Resource()
+                r.setAlt('fromCss')
                 if (res[:5] == "http:" ) or (res[:6] == "https:"):
-                    cssURLS.add(res)
+                    r.setUrl(res)
                 elif(res[:3] == "../"):
-                    cssURLS.add(mainURL+"/"+res[3:])
+                    r.setUrl(mainURL+"/"+res[3:])
                 elif(res[:2] =="./"):
-                    cssURLS.add(mainURL+"/"+res[2:])
+                    r.setUrl(mainURL+"/"+res[2:])
                 elif (res[:2]== "//"):
-                    cssURLS.add(mainURL+res[:1])
+                    r.setUrl(mainURL+res[:1])
                 elif(res[:1]== "/"):
-                    cssURLS.add(mainURL+res)
-            return cssURLS
+                    r.setUrl(mainURL+res)
+                self.webpageInfo.setResource(r)
+            return self.webpageInfo.getResources()
 
     """
     def cssParseURLS(url,download_path):

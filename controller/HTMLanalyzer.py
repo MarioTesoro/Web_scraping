@@ -2,10 +2,11 @@ import time
 import os
 from utils.Utils import *
 from bs4 import BeautifulSoup
-
+from model.resource import *
+from model.webpageInfo import *
 class HTMLanalyzer:
-    def __init__(self):
-        super().__init__()
+    
+    webpageInfo = WebpageInfo() 
 
     def scroll(self,driver,loadingtime,safetytime):
         scroll_pause_time = loadingtime
@@ -73,10 +74,14 @@ class HTMLanalyzer:
                 
                 #formatting url
                 link = Utils().checkURLformat(url,link)
-                print('link:',link)
-                print('alt',alt)
                 htmlPath.add(link)
                 alts.add(alt)
+                r = Resource()
+                r.setAlt(alt)
+                r.setUrl(link)
+                self.webpageInfo.setResource(r)
+                print('link:',r.getUrl)
+                print('alt',r.getAlt)
 
             #funzioni
             aTags = soup.findAll(href=True)
@@ -86,6 +91,10 @@ class HTMLanalyzer:
                 print("href: "+ str(href))
                 href = Utils().checkURLformat(url,href)
                 htmlPath.add(href)
+                r = Resource()
+                r.setAlt('aTag')
+                r.setUrl(link)
+                self.webpageInfo.setResource(r)
             
             videoTags = soup.findAll('video')
             print(videoTags)
@@ -102,5 +111,9 @@ class HTMLanalyzer:
                 print("video: ",vdSrc)
                 htmlPath.add(vdSrc)
                 alts.add(videoAlt)
-            #print(htmlPath)
-            return htmlPath,alts
+                r = Resource()
+                r.setAlt(vdSrc)
+                r.setUrl(videoAlt)
+                self.webpageInfo.setResource(r)
+
+            return self.webpageInfo.getResources()

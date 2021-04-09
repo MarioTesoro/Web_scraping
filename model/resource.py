@@ -1,12 +1,11 @@
 class Resource:
-  def __init__(self):
-    self.url = None
-    self.format = None
-    self.filename = None
-    self.newFilename = None
-    self.alt = None
-    self.text = None
-    self.status = None
+    url = None
+    format = None
+    filename = None
+    newFilename = None
+    alt = None
+    text = None
+    status = None
 
     #setters
     def setUrl(self,url):
@@ -30,30 +29,35 @@ class Resource:
         self.status = status
     #getters
     def getUrl(self):
-        return url
+        return self.url
     
     def getFileName(self):
-        return filename
+        return self.filename
 
     def getFormat (self):
-        return format
+        return self.format
 
     def getAlt(self):
-        return alt
+        return self.alt
     
     def getNewFilename(self):
-        return newFilename
+        return self.newFilename
 
     def getText(self):
-        return text
+        return self.text
 
     def getStatus(self):
-        return status
+        return self.status
+        
+    def printAll(self):
+        print("url"+self.url) 
+        print("format " +self.format)
+        print("filename " + self.filename)
+        print("newFilename " + self.newFilename)
+        print("alt " + self.alt)
+        print("text " +self.text)
+        print("status " +  self.status)
 
-    def toCSV(self):
-        if self.url!=None & self.format != None & self.filename != None & self.newFilename != None & self.alt != None & self.text != None & self.status != None:
-            print("csv")
-        else:
-            return False
+   
 
 

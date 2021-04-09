@@ -9,7 +9,8 @@ from urllib.parse import urlparse
 import time
 from controller.CSSanalyzer import * 
 from controller.Downloader import *
-
+from model.webpageInfo import *
+import json
 
 
 #misurazione dei tempi
@@ -32,13 +33,11 @@ except:
 safetytime = 30
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
 loadingtime = 10
-htmlanalyzer = HTMLanalyzer()
-cssanalyzer = CSSanalyzer()
-downloader = Downloader()
 for url in urls:
-    cssURLS= set()
-    htmlURLS = set()
-    alts = set()
+    htmlanalyzer = HTMLanalyzer()
+    cssanalyzer = CSSanalyzer()
+    downloader = Downloader()
+    webPageInfo = WebpageInfo()
     #urlPath= urlparse(url)
     #print(urlPath)
     #richiesta al sito web effettuare controllo
@@ -48,6 +47,17 @@ for url in urls:
     
    
     try: 
+        print("ciao")
+    except Exception as e:
+        print(e.__cause__)
+    finally:
+        print("end")
+        #chiusura driver
+        #driver.close()
+        #fine misurazione tempi e stampa per eventuali test
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,10,30)
         page = driver.page_source
@@ -63,36 +73,28 @@ for url in urls:
             for sheetURL in sheets:
                 print(sheetURL)
                 #metodo che cerca gli url nelle classi css e li inserisce in un set
-                cssURLS.update(cssanalyzer.cssParser(sheetURL,url)) 
+                webPageInfo.extendResources(cssanalyzer.cssParser(sheetURL,url))
                 print("---------------------------------------------------------------------\n")
-            print(cssURLS)
         else:
             print("css not found")
         
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        htmlURLS,alts = htmlanalyzer.resourceFinder(page,url)
+        webPageInfo.extendResources(htmlanalyzer.resourceFinder(page,url))
         #join set() css e html
-        
-        htmlURLS.update(cssURLS)
         print("---------------------------------------------------------------------\n")
-        print(alts)
         counter=1
-        for resource in htmlURLS:
+        resources = webPageInfo.getResources()
+        print(len(resources))
+        for resource in resources:
             try:
-                #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
+                    #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
                 result=downloader.resourcesDown(resource,counter)
+                counter = counter+1
+                print("ok")
             except:
                 print("exception")
-            counter=result
-        print("lunghezza. ",len(htmlURLS))
-    except Exception as e:
-        print(e.__cause__)
-    finally:
-        print("end")
-        #chiusura driver
-        driver.close()
-        #fine misurazione tempi e stampa per eventuali test
-        print("--- %s seconds ---" % (time.time() - start_time))
+        
+        
         
