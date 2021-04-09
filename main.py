@@ -1,12 +1,14 @@
-import funcs
 import prova
 from selenium import webdriver
+from controller.HTMLanalyzer import *
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import os
 from urllib.parse import urlparse
 import time
+from controller.CSSanalyzer import * 
+from controller.Downloader import *
 
 
 
@@ -24,29 +26,36 @@ try:
     driver = webdriver.Chrome(ChromeDriverManager().install())
 except:
     print("Controlla la connessione internet")
+
+
+#tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
+safetytime = 30
+#tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
+loadingtime = 10
+htmlanalyzer = HTMLanalyzer()
+cssanalyzer = CSSanalyzer()
+downloader = Downloader()
 for url in urls:
     cssURLS= set()
     htmlURLS = set()
     alts = set()
-    urlPath= urlparse(url)
-    print(urlPath)
+    #urlPath= urlparse(url)
+    #print(urlPath)
     #richiesta al sito web effettuare controllo
-    driver.get(url)
+    driver.get(url)#check if driver
     driver.maximize_window()
     print(len(str(driver.page_source)))
-    try:
-        element = driver.find_element_by_tag_name('body')
-        #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
-        safetytime = 30 
-        #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
-        loadingTime= 10
+    
+   
+    try: 
         #metodo che scrolla dinamicamente la pagina fino al suo termine
-        funcs.scroll(driver,loadingTime,safetytime)
+        htmlanalyzer.scroll(driver,10,30)
         page = driver.page_source
         #result =prova.pagination(driver,urlPath)
         #print(result)
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
-        sheets = funcs.findCssSheets(url,page)
+        
+        sheets = cssanalyzer.findCssSheets(url,page)
         print(sheets)
         
         if(len(sheets)> 0):
@@ -54,7 +63,7 @@ for url in urls:
             for sheetURL in sheets:
                 print(sheetURL)
                 #metodo che cerca gli url nelle classi css e li inserisce in un set
-                cssURLS.update(funcs.cssParser(sheetURL,url)) 
+                cssURLS.update(cssanalyzer.cssParser(sheetURL,url)) 
                 print("---------------------------------------------------------------------\n")
             print(cssURLS)
         else:
@@ -63,7 +72,7 @@ for url in urls:
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        htmlURLS,alts = prova.finder(page,url)
+        htmlURLS,alts = htmlanalyzer.resourceFinder(page,url)
         #join set() css e html
         
         htmlURLS.update(cssURLS)
@@ -73,10 +82,10 @@ for url in urls:
         for resource in htmlURLS:
             try:
                 #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
-                result=funcs.resourcesDown(resource,counter)
+                result=downloader.resourcesDown(resource,counter)
             except:
                 print("exception")
-            counter=counter+1
+            counter=result
         print("lunghezza. ",len(htmlURLS))
     except Exception as e:
         print(e.__cause__)

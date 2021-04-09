@@ -1,15 +1,5 @@
 import os
-import urllib.parse
-from urllib.parse import urlparse,urlsplit,parse_qs
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse
-
-
-def parseUrl(url):
-    parsed_url = urllib.parse.urlparse(url)
-    print(parsed_url.netloc)
-    return parsed_url.netloc
-
+import time
 url= 'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3'
 
 """urlPath= urlsplit(url)
@@ -25,6 +15,35 @@ print(urlz)
 if (urlz in url):
     print(True)
     """
+
+def scroll(driver , timeout,safetytime):
+        scroll_pause_time = timeout
+        beginTime= time.time()
+
+        # Get scroll height
+        last_height = driver.execute_script("return document.body.scrollHeight")
+
+        while True:
+            print(time.time()-beginTime)
+            if(time.time()-beginTime >= safetytime):
+                return
+            # Scroll down to bottom
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+            # Wait to load page
+            try:
+                time.sleep(scroll_pause_time)
+            except:
+                print("need more timeout")
+                return
+
+            # Calculate new scroll height and compare with last scroll height
+            new_height = driver.execute_script("return document.body.scrollHeight")
+            print(new_height, last_height)
+            if abs(new_height - last_height)<=5:#fixing?
+                # If heights are the same it will exit the function
+                return
+            last_height = new_height
 
 def pagination(driver,urlPath):
     try:
@@ -56,91 +75,9 @@ def pagination(driver,urlPath):
                 break
     return driver.page_source
 
-def finder(page,url):
-    print("Beginning html parsing")
-    htmlPath = set()
-    alts = set()
-    folder=parseUrl(url)
-    try:
-        os.mkdir(os.path.join(os.getcwd(), folder))
-    except:
-        pass
-    os.chdir(os.path.join(os.getcwd(), folder))
-    soup = BeautifulSoup(page, 'html.parser')
-    i=0
-    if(url.endswith("/")):
-        url=url[:-1]
-        print("urlll",url)
-    images = soup.find_all(['img','iframe'],alt=True,recursive=True)
-    for image in images:
-        link=None
-        alt=''
-        dataSrc =image.get('data-src')
-        src =image.has_attr('src')
-        gotsrc=image.get('src')
-        if dataSrc!=None:
-            link= dataSrc
-            alt = image.get('alt','')
-        if 'src' in image:
-            link = image['src']
-            alt = image.get('alt','')
-        if src:
-            link = image['src']
-            alt = image.get('alt','')
-        if gotsrc!=None:
-            link= image.get('src')
-            alt = image.get('alt','')
-        
-        #formatting url
-        link = checkURLformat(url,link)
-        print('link:',link)
-        print('alt',alt)
-        htmlPath.add(link)
-        alts.add(alt)
 
-    #funzioni
-    aTags = soup.findAll(href=True)
-    print(aTags)
-    for aTag in aTags:
-        href = aTag['href']
-        print("href: "+ str(href))
-        href = checkURLformat(url,href)
-        htmlPath.add(href)
-    
-    videoTags = soup.findAll('video')
-    print(videoTags)
-    for videoTag in videoTags:
-        vdSrc=videoTag.get('src')
-        if vdSrc:
-            videoAlt= videoTag.get('alt','')
-        elif vdSrc==None:
-            continue
-        else:
-            print('new video tag')
-        #per i video?
-        vdSrc = checkURLformat(url,vdSrc)
-        print("video: ",vdSrc)
-        htmlPath.add(vdSrc)
-        alts.add(videoAlt)
-    #print(htmlPath)
-    return htmlPath,alts
 
-def checkURLformat(url,link):
-    if link!=None:
-        if (link[:5] == "http:" ) or (link[:6] =="https:"):
-            return link
-        elif (link[:2]== "//"):
-            link = url+link[:1]
-        elif(link[:1]== "/"):
-            link= url+link
-        elif(link[:3] == "../"):
-            link = url+"/"+link[3:]
-        elif(link[:2] =="./"):
-            link =url+"/"+link[2:]
-        else:
-            print("else",link)
-        print(link)
-        return link
+
 
 """
 def HTMLparser(page,url):
