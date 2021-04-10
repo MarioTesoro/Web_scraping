@@ -27,5 +27,5 @@ class Utils:
         return parsed_url.netloc
     
     def getDownloadPath(self):
-        download_path = os.path.dirname(os.path.realpath(__file__))
+        download_path = os.getcwd()
         return download_path

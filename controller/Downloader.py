@@ -39,8 +39,8 @@ class Downloader:
                         with open(stringedCounter + format, 'wb') as f:
                                 print('Writing: ', stringedCounter + format)
                                 f.write(im.content) 
-                                f.close
-                                resource.getNewFilename(stringedCounter + format)
+                                f.close   
+                        resource.setNewFilename(stringedCounter + format)
                     except:
                         print(stringedCounter)
                             #scrivere un file di log

@@ -7,6 +7,10 @@ class Resource:
     text = None
     status = None
 
+    def __eq__(self, other):
+        return self.url == other.url
+    def __hash__(self):
+        return hash(self.url)
     #setters
     def setUrl(self,url):
         self.url=url
@@ -28,35 +32,35 @@ class Resource:
     def setStatus(self,status):
         self.status = status
     #getters
-    def getUrl(self):
+    def getUrl(self) -> str:
         return self.url
     
-    def getFileName(self):
+    def getFileName(self) -> str:
         return self.filename
 
-    def getFormat (self):
+    def getFormat (self) -> str:
         return self.format
 
-    def getAlt(self):
+    def getAlt(self) -> str:
         return self.alt
     
-    def getNewFilename(self):
+    def getNewFilename(self) -> str:
         return self.newFilename
 
-    def getText(self):
+    def getText(self) -> str:
         return self.text
 
-    def getStatus(self):
+    def getStatus(self) -> str:
         return self.status
         
     def printAll(self):
-        print("url"+self.url) 
-        print("format " +self.format)
-        print("filename " + self.filename)
-        print("newFilename " + self.newFilename)
-        print("alt " + self.alt)
-        print("text " +self.text)
-        print("status " +  self.status)
+        print("url"+str(self.url)) 
+        print("format " +str(self.format))
+        print("filename " + str(self.filename))
+        print("newFilename " + str(self.newFilename))
+        print("alt " + str(self.alt))
+        print("text " + str(self.text))
+        print("status " +  str(self.status))
 
    
 

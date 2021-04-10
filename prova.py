@@ -1,5 +1,6 @@
 import os
 import time
+
 url= 'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3'
 
 """urlPath= urlsplit(url)

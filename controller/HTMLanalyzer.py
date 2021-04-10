@@ -40,7 +40,6 @@ class HTMLanalyzer:
     def resourceFinder(self,page,url):
             print("Beginning html parsing")
             htmlPath = set()
-            alts = set()
             folder=Utils().parseUrl(url)
             try:
                 os.mkdir(os.path.join(os.getcwd(), folder))
@@ -74,8 +73,6 @@ class HTMLanalyzer:
                 
                 #formatting url
                 link = Utils().checkURLformat(url,link)
-                htmlPath.add(link)
-                alts.add(alt)
                 r = Resource()
                 r.setAlt(alt)
                 r.setUrl(link)
@@ -86,11 +83,11 @@ class HTMLanalyzer:
             #funzioni
             aTags = soup.findAll(href=True)
             print(aTags)
+
             for aTag in aTags:
                 href = aTag['href']
                 print("href: "+ str(href))
                 href = Utils().checkURLformat(url,href)
-                htmlPath.add(href)
                 r = Resource()
                 r.setAlt('aTag')
                 r.setUrl(link)
@@ -109,8 +106,6 @@ class HTMLanalyzer:
                 #per i video?
                 vdSrc = Utils().checkURLformat(url,vdSrc)
                 print("video: ",vdSrc)
-                htmlPath.add(vdSrc)
-                alts.add(videoAlt)
                 r = Resource()
                 r.setAlt(vdSrc)
                 r.setUrl(videoAlt)
