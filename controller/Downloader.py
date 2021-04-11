@@ -8,12 +8,13 @@ class Downloader:
     def resourcesDown(self,resource : Resource,counter):
         url =resource.getUrl()
         print(url)
+        #nel file csv scrivo tutto
+        filename = os.path.basename(url)
+        resource.setFileName(filename)
+        format = None
         if(url!=None):
             im = requests.get(url)
             if(im.ok):
-                format = None
-                filename = os.path.basename(url)
-                resource.setFileName(filename)
                 resource.setStatus(im.status_code)
                 print("Filename: "+filename)
                 if('jpg' in filename):
@@ -24,12 +25,15 @@ class Downloader:
                     format ='.jpeg'
                 elif('mp4' in filename):
                     format= '.mp4'
+                    print("qui" +resource.getFileName())
                 elif('svg' in filename):
                     format='.svg'
                 elif('gif' in filename):
                     format='.gif'
+                elif('woff' in filename):
+                    format='.woff'
                 else:
-                    format ='jpg' #.jpg
+                    format ='.jpg' #.jpg
                         
                 if(format !=None):
                     resource.setFormat(format)
@@ -47,9 +51,10 @@ class Downloader:
                         pass
             else:
                 resource.setStatus(im.status_code)
-                print("URL: %s " +str(im.status_code),url)   
+                
+                print("URL:" +str(im.status_code),url)   
         else:
-            print("None")
+            resource.setFormat(format)
             #not donwoloaded  
         return counter
         

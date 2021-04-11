@@ -3,9 +3,11 @@ from utils.Utils import *
 import csv
 import os
 class WebpageInfo:
-    resources= set()
+    resources = set()
     downloadPath = Utils().getDownloadPath()
-      
+    def __init__(self):
+        resources=set()
+
     def setResource(self,res : Resource):
         self.resources.add(res)
 
@@ -16,17 +18,22 @@ class WebpageInfo:
         return self.resources
     def printResources(self):
         for res in self.resources:
-            print(res)
+            r =Resource()
+            r= res
+            r.printAll()
 
-    def toCSV(self):
+    def toCSV(self,filename):
+        print("Writing: "+  str(filename)+'.csv')
         numberOfRows = 1
-        with open(self.downloadPath+os.path.sep+ 'csvFile.csv' ,'w', newline='') as out_f:
+        with open(self.downloadPath+os.path.sep+ str(filename)+'.csv' ,'w', newline='') as out_f:
             writer = csv.writer(out_f, delimiter=';')
-            writer.writerow(['ID','URL','NOME FILE','NUOVO NOME','TESTO ASSOCIATO','FORMATO','STATUS'])
+            writer.writerow(['ID','URL','NOME FILE','NOME ATTUALE','TESTO ALT','TESTO NEL TAG','FORMATO','STATUS'])
             for res in self.resources:
                 r = Resource()
                 r = res
-                writer.writerow([numberOfRows,r.getUrl(),r.getFileName(),r.getNewFilename(),r.getAlt(),r.getFormat(),r.getStatus()])
+                writer.writerow([numberOfRows,r.getUrl(),r.getFileName(),r.getNewFilename(),r.getAlt(),r.getText(),r.getFormat(),r.getStatus()])
                 numberOfRows+=1 
+            out_f.close()
+        #boolean return
            
 

@@ -55,30 +55,35 @@ class HTMLanalyzer:
             for image in images:
                 link=None
                 alt=''
+                text=''
                 dataSrc =image.get('data-src')
                 src =image.has_attr('src')
                 gotsrc=image.get('src')
+                text = image.get_text()
                 if dataSrc!=None:
                     link= dataSrc
                     alt = image.get('alt','')
                 if 'src' in image:
                     link = image['src']
                     alt = image.get('alt','')
+                
                 if src:
                     link = image['src']
                     alt = image.get('alt','')
+                  
                 if gotsrc!=None:
                     link= image.get('src')
                     alt = image.get('alt','')
-                
+                   
                 #formatting url
                 link = Utils().checkURLformat(url,link)
                 r = Resource()
                 r.setAlt(alt)
                 r.setUrl(link)
+                r.setText(text.strip())
                 self.webpageInfo.setResource(r)
-                print('link:',r.getUrl)
-                print('alt',r.getAlt)
+                print('link: ',r.getUrl)
+                print('alt: ',r.getAlt)
 
             #funzioni
             aTags = soup.findAll(href=True)
@@ -86,17 +91,21 @@ class HTMLanalyzer:
 
             for aTag in aTags:
                 href = aTag['href']
-                print("href: "+ str(href))
+                text = aTag.get_text()
                 href = Utils().checkURLformat(url,href)
                 r = Resource()
                 r.setAlt('aTag')
                 r.setUrl(link)
+                r.setText(text.strip())
                 self.webpageInfo.setResource(r)
+                print("href : "+ str(r.getUrl()))
+                print("text :"+str(r.getText()))
             
             videoTags = soup.findAll('video')
             print(videoTags)
             for videoTag in videoTags:
                 vdSrc=videoTag.get('src')
+                text = videoTag.get_text()
                 if vdSrc:
                     videoAlt= videoTag.get('alt','')
                 elif vdSrc==None:
@@ -105,10 +114,10 @@ class HTMLanalyzer:
                     print('new video tag')
                 #per i video?
                 vdSrc = Utils().checkURLformat(url,vdSrc)
-                print("video: ",vdSrc)
                 r = Resource()
-                r.setAlt(vdSrc)
-                r.setUrl(videoAlt)
+                r.setAlt(videoAlt)
+                r.setUrl(vdSrc)
+                r.setText(text.strip())
                 self.webpageInfo.setResource(r)
 
             return self.webpageInfo.getResources()

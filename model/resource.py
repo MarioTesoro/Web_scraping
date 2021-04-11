@@ -1,3 +1,5 @@
+
+import time
 class Resource:
     url = None
     format = None
@@ -8,7 +10,15 @@ class Resource:
     status = None
 
     def __eq__(self, other):
-        return self.url == other.url
+        r= Resource()
+        r=other
+        """
+        if(self.url == r.getUrl() and self.alt == r.getAlt() and self.text==r.getText()):
+            return True
+        else:
+            return False
+        """
+        return self.url == r.getUrl()
     def __hash__(self):
         return hash(self.url)
     #setters
@@ -54,7 +64,7 @@ class Resource:
         return self.status
         
     def printAll(self):
-        print("url"+str(self.url)) 
+        print("url "+str(self.url)) 
         print("format " +str(self.format))
         print("filename " + str(self.filename))
         print("newFilename " + str(self.newFilename))

@@ -31,7 +31,7 @@ class CSSanalyzer:
             return cssPath
 
 
-    def cssParser(self,sheetURL,mainURL):
+    def cssParser(self,sheetURL,mainURL) ->set():
             if(mainURL.endswith("/")):
                 mainURL=mainURL[:-1]
                 print("urlll",mainURL)
