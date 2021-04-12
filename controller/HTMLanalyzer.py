@@ -84,8 +84,8 @@ class HTMLanalyzer:
                 r.setUrl(link)
                 r.setText(text.strip())
                 self.webpageInfo.setResource(r)
-                print('link: ',r.getUrl)
-                print('alt: ',r.getAlt)
+                print('link: ',r.getUrl())
+                print('alt: ',r.getAlt())
 
             #funzioni
             aTags = soup.findAll(href=True)
@@ -97,7 +97,7 @@ class HTMLanalyzer:
                 href = Utils().checkURLformat(url,href)
                 r = Resource()
                 r.setAlt('aTag')
-                r.setUrl(link)
+                r.setUrl(href)
                 r.setText(text.strip())
                 self.webpageInfo.setResource(r)
                 print("href : "+ str(r.getUrl()))
