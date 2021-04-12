@@ -8,7 +8,7 @@ class Resource:
     alt = None
     text = None
     status = None
-
+    #metodo fondamentale poichè nel set differenzia un oggetto dall'altro,va discussa una politica da adottare in merito
     def __eq__(self, other):
         r= Resource()
         r=other

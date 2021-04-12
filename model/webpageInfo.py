@@ -5,8 +5,13 @@ import os
 class WebpageInfo:
     resources = set()
     downloadPath = Utils().getDownloadPath()
+    id = None 
+
     def __init__(self):
         resources=set()
+
+    def setId(self,id):
+        self.id=id
 
     def setResource(self,res : Resource):
         self.resources.add(res)
@@ -16,12 +21,16 @@ class WebpageInfo:
     
     def getResources(self):
         return self.resources
+
+    def getID(self):
+        return self.id
+
     def printResources(self):
         for res in self.resources:
             r =Resource()
             r= res
             r.printAll()
-
+    #metodo che scrive in un file .csv le risorse trovate
     def toCSV(self,filename):
         print("Writing: "+  str(filename)+'.csv')
         numberOfRows = 1
@@ -34,6 +43,6 @@ class WebpageInfo:
                 writer.writerow([numberOfRows,r.getUrl(),r.getFileName(),r.getNewFilename(),r.getAlt(),r.getText(),r.getFormat(),r.getStatus()])
                 numberOfRows+=1 
             out_f.close()
-        #boolean return
+            #implementare le statistiche
            
 

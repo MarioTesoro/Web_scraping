@@ -3,14 +3,14 @@ from bs4 import BeautifulSoup
 import re
 from model.webpageInfo import *
 from model.resource import *
+from utils.Utils import *
 
 class CSSanalyzer:
     webpageInfo = WebpageInfo()    
-
+    # metodo che ricerca i fogli css leggendo l'head della struttura html della pagina e restituisce un set di url ricavati
     def findCssSheets(self,url,page):
             if(url.endswith("/")):
                 url=url[:-1]
-                print("urlll",url)
             soup = BeautifulSoup(page, 'html.parser')
             cssPath = set()
             links = soup.find_all('link')
@@ -30,20 +30,21 @@ class CSSanalyzer:
                         #print(cssPath)
             return cssPath
 
-
+    #metodo che dati in input gli url dei fogli di stile trovati effettua uno scraping dei tag richiesti come ad esempio url()
+    #restituisce un set di url trovati nei fogli
     def cssParser(self,sheetURL,mainURL) ->set():
             if(mainURL.endswith("/")):
                 mainURL=mainURL[:-1]
-                print("urlll",mainURL)
+
             r = requests.get(sheetURL)
             css = r.content
             urls = []
             cssURLS = set()
-            #stringedSheet = str(css)
             urls = re.findall('url\(([^)]+)\)',str(css))
             for res in urls:
                 r = Resource()
                 r.setAlt('fromCss')
+                #sostituire con checkURLformat()
                 if (res[:5] == "http:" ) or (res[:6] == "https:"):
                     r.setUrl(res)
                 elif(res[:3] == "../"):
@@ -56,21 +57,5 @@ class CSSanalyzer:
                     r.setUrl(mainURL+res)
                 self.webpageInfo.setResource(r)
             return self.webpageInfo.getResources()
-
-    """
-    def cssParseURLS(url,download_path):
-        folderName = parseUrl(url)
-        parser = cssutils.CSSParser()
-        css_path=download_path+"/"+folderName+"/"+folderName+"/"+"css"
-        for filename in os.listdir(css_path):
-            css_sheet_path=css_path +"/"+ filename
-            print(css_sheet_path)
-            sheet = parser.parseFile(css_sheet_path,'ascii')
-            stringedSheet=str(sheet.cssText)
-            urls = re.findall("url\(.+?\)",stringedSheet)
-            print(urls)
-            print('--------------------------------------------------------------------------------------')
-            """
-        
 
             

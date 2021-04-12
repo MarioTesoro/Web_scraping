@@ -4,7 +4,8 @@ from utils.Utils import *
 import os
 from model.resource import *
 class Downloader:
-
+    #metodo che in base ai formati noti dei file scarica il loro contenuto inoltre popola dei dati inerenti ai file gli oggetti 
+    #di tipo Resource e li restituisce al set
     def resourcesDown(self,resource : Resource,counter):
         url =resource.getUrl()
         print(url)
@@ -25,7 +26,6 @@ class Downloader:
                     format ='.jpeg'
                 elif('mp4' in filename):
                     format= '.mp4'
-                    print("qui" +resource.getFileName())
                 elif('svg' in filename):
                     format='.svg'
                 elif('gif' in filename):
@@ -33,6 +33,8 @@ class Downloader:
                 elif('woff' in filename):
                     format='.woff'
                 else:
+                    #stampa l'url per capire l'estensione e migliorare
+                    print(url)
                     format ='.jpg' #.jpg
                         
                 if(format !=None):
@@ -59,7 +61,7 @@ class Downloader:
         return counter
         
 
-
+    #metodo per il download del source code, da discutere
     def sourceCodeDownloader(self,url,download_path): 
         folder=Utils().parseUrl(url)
         kwargs = {'bypass_robots': True}

@@ -4,10 +4,12 @@ from utils.Utils import *
 from bs4 import BeautifulSoup
 from model.resource import *
 from model.webpageInfo import *
+
 class HTMLanalyzer:
     
     webpageInfo = WebpageInfo() 
 
+    #metodo che effettua uno scroll della pagina impostando un tempo di delay per il caricamento delle risorse e un tempo massimo di scroll
     def scroll(self,driver,loadingtime,safetytime):
         scroll_pause_time = loadingtime
         beginTime= time.time()
@@ -36,7 +38,7 @@ class HTMLanalyzer:
                 # If heights are the same it will exit the function
                 return
             last_height = new_height
-
+    #metodo che ricerca src datasrc href e alt nei tag img video iframe e alt aggiungendoli al set di risorse comune tra analisi css e html
     def resourceFinder(self,page,url):
             print("Beginning html parsing")
             htmlPath = set()
@@ -106,6 +108,7 @@ class HTMLanalyzer:
             for videoTag in videoTags:
                 vdSrc=videoTag.get('src')
                 text = videoTag.get_text()
+                videoAlt =''
                 if vdSrc:
                     videoAlt= videoTag.get('alt','')
                 elif vdSrc==None:
