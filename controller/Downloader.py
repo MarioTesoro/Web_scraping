@@ -13,7 +13,9 @@ class Downloader:
         filename = os.path.basename(url)
         resource.setFileName(filename)
         format = None
-        if(url!=None):
+        if(url.endswith("/")):
+            resource.setFormat(format)
+        elif(url!=None):
             im = requests.get(url)
             if(im.ok):
                 resource.setStatus(im.status_code)
