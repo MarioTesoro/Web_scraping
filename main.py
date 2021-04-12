@@ -63,6 +63,7 @@ for url in urls:
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,10,30)
         page = driver.page_source
+        
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
         sheets = cssanalyzer.findCssSheets(url,page)
         print(sheets)
@@ -80,7 +81,6 @@ for url in urls:
             #time.sleep(5)        
         else:
             print("css not found")
-        
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
@@ -89,6 +89,7 @@ for url in urls:
         #join set() css e html
         print("---------------------------------------------------------------------\n")
         #webPageInfo.printResources()
+
         counter=1
         resources = webPageInfo.getResources()
         print(len(resources))
@@ -104,7 +105,8 @@ for url in urls:
     
         #se la pagina è la stessa altrimenti append
         webPageInfo.toCSV('csvFile')
-        
+
+
         """
         #funzione che torna indietro il piu possibile 
         result=True

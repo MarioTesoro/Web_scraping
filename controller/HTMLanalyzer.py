@@ -52,31 +52,26 @@ class HTMLanalyzer:
             i=0
             if(url.endswith("/")):
                 url=url[:-1]
-                print("urlll",url)
-            images = soup.find_all(['img','iframe'],alt=True,recursive=True)
+            images = soup.find_all(recursive=True)
             for image in images:
                 link=None
                 alt=''
                 text=''
                 dataSrc =image.get('data-src')
                 src =image.has_attr('src')
-                gotsrc=image.get('src')
+                href = image.has_attr('href')
+                print("href",href)
                 text = image.get_text()
                 if dataSrc!=None:
                     link= dataSrc
                     alt = image.get('alt','')
-                if 'src' in image:
+                elif src:
                     link = image['src']
                     alt = image.get('alt','')
+                elif href:
+                     link = image['href']
+                     alt = image.get('alt','')
                 
-                if src:
-                    link = image['src']
-                    alt = image.get('alt','')
-                  
-                if gotsrc!=None:
-                    link= image.get('src')
-                    alt = image.get('alt','')
-                   
                 #formatting url
                 link = Utils().checkURLformat(url,link)
                 r = Resource()
@@ -86,7 +81,7 @@ class HTMLanalyzer:
                 self.webpageInfo.setResource(r)
                 print('link: ',r.getUrl())
                 print('alt: ',r.getAlt())
-
+            """
             #funzioni
             aTags = soup.findAll(href=True)
             print(aTags)
@@ -102,25 +97,6 @@ class HTMLanalyzer:
                 self.webpageInfo.setResource(r)
                 print("href : "+ str(r.getUrl()))
                 print("text :"+str(r.getText()))
-            
-            videoTags = soup.findAll('video')
-            print(videoTags)
-            for videoTag in videoTags:
-                vdSrc=videoTag.get('src')
-                text = videoTag.get_text()
-                videoAlt =''
-                if vdSrc:
-                    videoAlt= videoTag.get('alt','')
-                elif vdSrc==None:
-                    continue
-                else:
-                    print('new video tag')
-                #per i video?
-                vdSrc = Utils().checkURLformat(url,vdSrc)
-                r = Resource()
-                r.setAlt(videoAlt)
-                r.setUrl(vdSrc)
-                r.setText(text.strip())
-                self.webpageInfo.setResource(r)
+            """
 
             return self.webpageInfo.getResources()

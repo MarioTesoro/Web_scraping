@@ -20,7 +20,10 @@ class Downloader:
             if(im.ok):
                 resource.setStatus(im.status_code)
                 print("Filename: "+filename)
-                if('jpg' in filename):
+                #controllare
+                if(filename[3:]=='.js' or filename[4:]=='.htm' or filename[5:]=='.html'):
+                    format=None
+                elif('jpg' in filename):
                     format ='.jpg'
                 elif('png' in filename):
                     format ='.png'

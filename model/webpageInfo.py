@@ -34,7 +34,7 @@ class WebpageInfo:
     def toCSV(self,filename):
         print("Writing: "+  str(filename)+'.csv')
         numberOfRows = 1
-        with open(self.downloadPath+os.path.sep+ str(filename)+'.csv' ,'w', newline='') as out_f:
+        with open(self.downloadPath+os.path.sep+ str(filename)+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
             writer = csv.writer(out_f, delimiter=';')
             writer.writerow(['ID','URL','NOME FILE','NOME ATTUALE','TESTO ALT','TESTO NEL TAG','FORMATO','STATUS'])
             for res in self.resources:
