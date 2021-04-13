@@ -1,0 +1,24 @@
+<html>
+	<head><title>Av_redirect</title></head>
+	<body onload="red()">
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-950299-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+
+			gtag('js', new Date());
+
+			gtag('config', 'UA-950299-1');
+		</script>
+
+		<script>
+		function red() {
+			var url = document.location.href.substring(document.location.href.indexOf('?') + 1);
+			document.location.href = url;
+		}
+		</script>
+	</body>
+</html>

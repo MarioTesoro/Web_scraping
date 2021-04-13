@@ -1,0 +1,520 @@
+/* withinCMS */
+function withinCMS() {
+	if ( typeof isCMS !== 'undefined' || sectionCode.indexOf('pubbliredazionali_all')!=-1) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/* variables */
+	var slot_300x250_top;
+	var	slot_300x250_bottom;
+	var slot_970x250_top;
+	var slot_970x250_bottom;
+	var slot_300x100_top;
+	var slot_300x250_mobile;
+	
+	var	unit_id_300x250_top;
+	var	unit_id_300x250_bottom;
+	var unit_id_970x250_top;
+	var unit_id_970x250_bottom;
+	var unit_id_300x100_top;
+	var	unit_id_300x250_mobile;	
+		
+	switch (sectionCode) {
+	case 'home':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543204017-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530541319729-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544532914-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544044875-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530545823838-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542816518-0';
+		break;
+	case 'hp_cronaca':
+	case 'cronaca':
+	case 'protagonisti_cronaca':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_cronaca';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_cronaca';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_cronaca';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_cronaca';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_cronaca';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_cronaca';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543238246-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530541387741-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544568474-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544098863-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541020707-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542864457-0';
+		break;
+	case 'hp_cultura':
+	case 'cultura_cinema':
+	case 'cultura_moda':
+	case 'cultura_teatro':
+	case 'cultura_tv':
+	case 'cultura_musica':
+	case 'cultura_libri':
+	case 'cultura_arte':
+	case 'cultura_unlibroalgiorno':
+	case 'cultura_unfilmalgiorno':
+	case 'protagonisti_cultura':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_cultura';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_cultura';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_cultura';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_cultura';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_cultura';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_cultura';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543255619-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530541410722-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544585787-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544116148-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530540933881-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542882242-0';
+		break;
+	case 'hp_economia':
+	case 'economia':
+	case 'protagonisti_economia':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_economia';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_economia';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_economia';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_economia';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_economia';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_economia';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543287078-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542241377-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544625840-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544152447-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541040516-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542922157-0';
+		break;
+	case 'hp_mondo':
+	case 'mondo_europa':
+	case 'mondo_nordamerica':
+	case 'mondo_americalatina':
+	case 'mondo_africa':
+	case 'mondo_medioriente':
+	case 'mondo_asia':
+	case 'mondo_oceania':
+	case 'protagonisti_mondo':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_mondo';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_mondo';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_mondo';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_mondo';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_mondo';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_mondo';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543378411-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542492862-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544728852-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544273222-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541101069-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543025340-0';
+		break;
+	case 'hp_politica':
+	case 'politica':
+	case 'protagonisti_politica':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_politica';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_politica';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_politica';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_politica';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_politica';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_politica';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543416901-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542532038-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544759510-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544315806-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541144865-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543056615-0';
+		break;
+	case 'hp_sport':
+	case 'sport_calcio':
+	case 'sport_formula1':
+	case 'sport_moto':
+	case 'sport_basket':
+	case 'sport_tennis':
+	case 'sport_nuoto':
+	case 'sport_altrisport':
+	case 'protagonisti_sport':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_sport';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_sport';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_sport';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_sport';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_sport';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_sport';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543508524-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542656914-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544846023-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544426623-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541195328-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543131093-0';
+		break;
+	case 'hp_tecnologia':
+	case 'tecnologia_hitech':
+	case 'tecnologia_internetsocial':
+	case 'tecnologia_tlc':
+	case 'tecnologia_softwareapp':
+	case 'tecnologia_games':
+	case 'protagonisti_tecnologia':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_tecnologia';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_tecnologia';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_tecnologia';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_tecnologia';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_tecnologia';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_tecnologia';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543524870-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542674124-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544868852-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544446352-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541212841-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543147091-0';
+		break;
+	case 'photogallery_primopiano':
+	case 'photogallery_sport':
+	case 'photogallery_moda':
+	case 'photogallery_spettacolo':
+	case 'photogallery_people':
+	case 'photogallery_curiosita':
+	case 'photogallery_fotodelgiorno':
+	case 'photogallery_fotodellanno':
+	case 'hp_videogallery':
+	case 'videogallery_videogiornale':
+	case 'videogallery_italia':
+	case 'videogallery_mondo':
+	case 'videogallery_sport':
+	case 'videogallery_calcio':
+	case 'videogallery_spettacolo':
+	case 'videogallery_economia':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_fotovideo';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_fotovideo';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_fotovideo';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_fotovideo';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_fotovideo';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543315004-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542372873-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544668779-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544198002-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542957480-0';
+		break;
+	case 'hp_sections':
+	case 'sections':
+	case 'sections_generalnews':
+	case 'sections_politics':
+	case 'sections_business':
+	case 'sections_sciencetecnology':
+	case 'lifestyle_travel':
+	case 'lifestyle_artscultureandstyle':
+	case 'lifestyle_fashionluxury':
+	case 'lifestyle_foodwine':
+	case 'sections_sports':
+	case 'sections_vatican':
+	case 'sections_world':
+	case 'hp_photogalleryenglish':
+	case 'photogalleryenglish':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_english';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_english';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_english';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_english';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_english';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_english';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543300986-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542269085-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544652952-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544170543-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541069311-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542942515-0';
+		break;
+	case 'hp_regioni':
+	case 'regioni':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_regioni';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_regioni';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_regioni';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_regioni';
+ 		slot_300x100_top ='/316475115/ansa_300x100_hp/ansa_300x100_hp_regioni';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_regioni';
+ 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543431721-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542554613-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544782798-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544330630-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541162940-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543069909-0';
+		if (document.location.href.indexOf("/sardegna/")!=-1) {
+ 			slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_regioni/ansa_masthead_hp_regioni_sardegna'; 		
+	 		unit_id_970x250_top = 'div-gpt-ad-1541413945758-0';
+  		}
+		if (document.location.href.indexOf("/piemonte/")!=-1) {
+ 			slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_regioni/ansa_300x250_hp_mobile_regione_piemonte'; 		
+	 		unit_id_300x250_mobile = 'div-gpt-ad-1563456957718-0';
+  		}			
+		if (document.location.href.indexOf("/lombardia/")!=-1) {
+ 			slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_regioni/ansa_300x250_hp_mobile_regione_lombardia'; 		
+	 		unit_id_300x250_mobile = 'div-gpt-ad-1563457087401-0';
+  		}
+		if (document.location.href.indexOf("/liguria/")!=-1) {
+ 			slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_regioni/ansa_300x250_hp_mobile_regione_liguria'; 		
+	 		unit_id_300x250_mobile = 'div-gpt-ad-1563457324038-0';
+  		}	
+		break;
+	case 'hp_meteo':
+	case 'meteo':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_meteo';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_meteo';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_meteo';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_meteo';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_meteo';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543360028-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542468609-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544713991-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544255872-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543005177-0';
+		break;
+	case 'ambientenergia_home':
+	case 'ambientenergia_general':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_ambiente';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_ambiente';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_ambiente';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_ambiente';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_ambiente';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543221668-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530541347282-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544550446-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544073269-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542842114-0';
+		break;
+	case 'inviaggio_home':
+	case 'inviaggio_general':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_viaggiart';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_viaggiart';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_viaggiart';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_viaggiart';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_viaggiart';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543563151-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542725449-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544904336-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544481063-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543184719-0';
+		break;
+	case 'lifestyle_home':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_lifestyle';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_lifestyle';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_lifestyle';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_lifestyle';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_lifestyle';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543345758-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542764006-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544700153-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544238163-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542990163-0';
+		break;
+	case 'hp_motori':
+	case 'motori_all':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_motori';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_motori';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_motori';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_motori';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_motori';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543401870-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542512272-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544744664-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544293183-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543040627-0';
+		break;
+	case 'salutebenessere_home':
+	case 'salutebenessere_default':
+	case 'salutebenessere_bambini':
+	case 'salutebenessere_salute65':
+	case 'salutebenessere_leilui':
+	case 'salutebenessere_diabete':	
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_salute';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_salute';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_salute';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_salute';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_salute';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543468074-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542598812-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544814404-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544366548-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543098310-0';
+		break;
+	case 'scienzaetecnica_home':
+	case 'scienzaetecnica_default':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_scienza';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_scienza';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_scienza';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_scienza';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_scienza';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543486216-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542627921-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544829645-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544392751-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543115998-0';
+		break;
+	case 'terraegusto_home':
+	case 'terraegusto_general':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_terraegusto';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_terraegusto';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_terraegusto';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_terraegusto';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_terraegusto';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543543851-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542700597-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544885494-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544464264-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543168186-0';
+		break;
+	case 'mare':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_mare';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_news_bottom';
+ 		slot_970x250_top = '/316475115/ansa_masthead_news_top';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_news_bottom';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_news_mobile';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1538044097071-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530603665094-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530608250436-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530608162373-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543627957-0';
+		break;
+	case 'industry4.0_home':
+	case 'industry4.0_general':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_industry';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_industry';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_industry';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_industry';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_industry';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543331150-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542401211-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544685732-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544219141-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530542973163-0';
+		break;
+	case 'russia2018_all':
+ 		slot_300x250_top = '/316475115/ansa_300x250_hp_top/ansa_300x250_hp_russia2018';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_hp_bottom/ansa_300x250_hp_russia2018';
+ 		slot_970x250_top = '/316475115/ansa_masthead_hp_top/ansa_masthead_hp_russia2018';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_hp_bottom/ansa_masthead_hp_russia2018';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_hp_mobile/ansa_300x250_hp_russia2018';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543448092-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530542574895-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530544796696-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530544344956-0';
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543084053-0';
+		break;
+/*	case 'ultimaora':
+ 		slot_300x250_top = '';
+ 		slot_300x250_bottom = '';
+ 		slot_970x250_top = '';
+ 		slot_970x250_bottom = '';
+ 		slot_300x100_top ='';
+ 		slot_300x250_mobile = '';
+		 		
+  		unit_id_300x250_top = '';
+ 		unit_id_300x250_bottom = '';
+ 		unit_id_970x250_top = '';
+ 		unit_id_970x250_bottom = '';
+ 		unit_id_300x100_top ='';		
+  		unit_id_300x250_mobile = '';
+		break;
+	case 'pubbliredazionali_all':
+ 		slot_300x250_top = '';
+ 		slot_300x250_bottom = '';
+ 		slot_970x250_top = '';
+ 		slot_970x250_bottom = '';
+ 		slot_300x100_top ='';
+ 		slot_300x250_mobile = '';
+		 		
+  		unit_id_300x250_top = '';
+ 		unit_id_300x250_bottom = '';
+ 		unit_id_970x250_top = '';
+ 		unit_id_970x250_bottom = '';
+ 		unit_id_300x100_top ='';		
+  		unit_id_300x250_mobile = '';
+		break;
+	case 'speciali_all':
+ 		slot_300x250_top = '';
+ 		slot_300x250_bottom = '';
+ 		slot_970x250_top = '';
+ 		slot_970x250_bottom = '';
+ 		slot_300x100_top ='';
+ 		slot_300x250_mobile = '';
+		 		
+  		unit_id_300x250_top = '';
+ 		unit_id_300x250_bottom = '';
+ 		unit_id_970x250_top = '';
+ 		unit_id_970x250_bottom = '';
+ 		unit_id_300x100_top ='';		
+  		unit_id_300x250_mobile = '';
+		break;
+	case 'magazine_all':
+ 		slot_300x250_top = '';
+ 		slot_300x250_bottom = '';
+ 		slot_970x250_top = '';
+ 		slot_970x250_bottom = '';
+ 		slot_300x100_top ='';
+ 		slot_300x250_mobile = '';
+		 		
+  		unit_id_300x250_top = '';
+ 		unit_id_300x250_bottom = '';
+ 		unit_id_970x250_top = '';
+ 		unit_id_970x250_bottom = '';
+ 		unit_id_300x100_top ='';		
+  		unit_id_300x250_mobile = '';
+		break;
+	case 'tempodiesami_all':
+ 		slot_300x250_top = '';
+ 		slot_300x250_bottom = '';
+ 		slot_970x250_top = '';
+ 		slot_970x250_bottom = '';
+ 		slot_300x100_top ='';
+ 		slot_300x250_mobile = '';
+		 		
+  		unit_id_300x250_top = '';
+ 		unit_id_300x250_bottom = '';
+ 		unit_id_970x250_top = '';
+ 		unit_id_970x250_bottom = '';
+ 		unit_id_300x100_top ='';		
+  		unit_id_300x250_mobile = '';
+		break;*/
+	default:
+	 	slot_300x250_top = '/316475115/ansa_300x250_news_top';
+ 		slot_300x250_bottom = '/316475115/ansa_300x250_news_bottom';
+ 		slot_970x250_top = '/316475115/ansa_masthead_news_top';
+ 		slot_970x250_bottom = '/316475115/ansa_masthead_news_bottom';
+ 		slot_300x100_top ='/316475115/ansa_300x100_news';
+ 		slot_300x250_mobile = '/316475115/ansa_300x250_news_mobile';
+		 		
+  		unit_id_300x250_top = 'div-gpt-ad-1530543651999-0';
+ 		unit_id_300x250_bottom = 'div-gpt-ad-1530603665094-0';
+ 		unit_id_970x250_top = 'div-gpt-ad-1530608250436-0';
+ 		unit_id_970x250_bottom = 'div-gpt-ad-1530608162373-0';
+ 		unit_id_300x100_top ='div-gpt-ad-1530541288093-0';		
+  		unit_id_300x250_mobile = 'div-gpt-ad-1530543627957-0';
+
+		break;
+	}
+
