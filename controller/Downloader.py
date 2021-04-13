@@ -13,7 +13,7 @@ class Downloader:
         filename = os.path.basename(url)
         resource.setFileName(filename)
         format = None
-        if(url.endswith("/")):
+        if(url.endswith("/") or url.endswith(".js") or url.endswith(".css") or url.endswith("html") or url.endswith("htm")):
             resource.setFormat(format)
         elif(url!=None):
             im = requests.get(url)
@@ -21,9 +21,7 @@ class Downloader:
                 resource.setStatus(im.status_code)
                 print("Filename: "+filename)
                 #controllare
-                if(filename[3:]=='.js' or filename[4:]=='.htm' or filename[5:]=='.html'):
-                    format=None
-                elif('jpg' in filename):
+                if('jpg' in filename):
                     format ='.jpg'
                 elif('png' in filename):
                     format ='.png'

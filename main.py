@@ -17,7 +17,7 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://www.ansa.it/']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 downlaod_path = Utils().getDownloadPath()
 print(downlaod_path)
@@ -63,7 +63,7 @@ for url in urls:
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,10,30)
         page = driver.page_source
-        
+        """
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
         sheets = cssanalyzer.findCssSheets(url,page)
         print(sheets)
@@ -83,13 +83,15 @@ for url in urls:
             print("css not found")
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
+        """
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
         resourceFound = htmlanalyzer.resourceFinder(page,url)
         print(len(resourceFound))
+        
         #join set() css e html
         print("---------------------------------------------------------------------\n")
         #webPageInfo.printResources()
-
+        
         counter=1
         resources = webPageInfo.getResources()
         print(len(resources))

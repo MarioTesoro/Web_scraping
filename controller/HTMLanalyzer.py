@@ -52,25 +52,25 @@ class HTMLanalyzer:
             i=0
             if(url.endswith("/")):
                 url=url[:-1]
-            images = soup.find_all(recursive=True)
-            for image in images:
+            resources = soup.find_all(recursive=True)
+            for resource in resources:
                 link=None
                 alt=''
                 text=''
-                dataSrc =image.get('data-src')
-                src =image.has_attr('src')
-                href = image.has_attr('href')
+                dataSrc =resource.get('data-src')
+                src =resource.has_attr('src')
+                href = resource.has_attr('href')
                 print("href",href)
-                text = image.get_text()
+                text = resource.get_text()
                 if dataSrc!=None:
                     link= dataSrc
-                    alt = image.get('alt','')
+                    alt = resource.get('alt','')
                 elif src:
-                    link = image['src']
-                    alt = image.get('alt','')
+                    link = resource['src']
+                    alt = resource.get('alt','')
                 elif href:
-                     link = image['href']
-                     alt = image.get('alt','')
+                     link = resource['href']
+                     alt = resource.get('alt','')
                 
                 #formatting url
                 link = Utils().checkURLformat(url,link)
@@ -78,9 +78,11 @@ class HTMLanalyzer:
                 r.setAlt(alt)
                 r.setUrl(link)
                 r.setText(text.strip())
+
                 self.webpageInfo.setResource(r)
                 print('link: ',r.getUrl())
                 print('alt: ',r.getAlt())
+                
             """
             #funzioni
             aTags = soup.findAll(href=True)
