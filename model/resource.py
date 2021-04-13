@@ -1,6 +1,7 @@
 
 import time
 class Resource:
+    tagName =None
     url = None
     format = None
     filename = None
@@ -41,6 +42,9 @@ class Resource:
         self.text=text
     def setStatus(self,status):
         self.status = status
+
+    def setTagName(self,tagName):
+        self.tagName = tagName
     #getters
     def getUrl(self) -> str:
         return self.url
@@ -62,6 +66,10 @@ class Resource:
 
     def getStatus(self) -> str:
         return self.status
+
+    def getTagName(self) -> str:
+        return self.tagName
+    
         
     def printAll(self):
         print("url "+str(self.url)) 
@@ -71,6 +79,7 @@ class Resource:
         print("alt " + str(self.alt))
         print("text " + str(self.text))
         print("status " +  str(self.status))
+        print("tagname " +  str(self.tagName))
 
    
 

@@ -45,6 +45,8 @@ class HTMLanalyzer:
             folder=Utils().parseUrl(url)
             try:
                 os.mkdir(os.path.join(os.getcwd(), folder))
+                os.mkdir(os.path.join(os.getcwd(), folder+ os.path.sep+"src"))
+                os.mkdir(os.path.join(os.getcwd(), folder +os.path.sep+"href"))
             except:
                 pass
             os.chdir(os.path.join(os.getcwd(), folder))
@@ -54,51 +56,38 @@ class HTMLanalyzer:
                 url=url[:-1]
             resources = soup.find_all(recursive=True)
             for resource in resources:
-                link=None
-                alt=''
-                text=''
+                tagName = resource.name
+                link = None
+                href = 'noHref'
+                alt='noAlt'
+                text='noText'
                 dataSrc =resource.get('data-src')
                 src =resource.has_attr('src')
                 href = resource.has_attr('href')
-                print("href",href)
+                
                 text = resource.get_text()
                 if dataSrc!=None:
                     link= dataSrc
                     alt = resource.get('alt','')
+                    
                 elif src:
                     link = resource['src']
                     alt = resource.get('alt','')
-                elif href:
-                     link = resource['href']
-                     alt = resource.get('alt','')
+                    #input ('inserisci qualcosa')
+                elif href: 
+                    link = resource.get('href')
+                    print("href:",link )
+                    alt = resource.get('alt','')
                 
                 #formatting url
                 link = Utils().checkURLformat(url,link)
+    
                 r = Resource()
+                r.setTagName(str(tagName))
                 r.setAlt(alt)
                 r.setUrl(link)
                 r.setText(text.strip())
-
+                r.printAll()
                 self.webpageInfo.setResource(r)
-                print('link: ',r.getUrl())
-                print('alt: ',r.getAlt())
-                
-            """
-            #funzioni
-            aTags = soup.findAll(href=True)
-            print(aTags)
-
-            for aTag in aTags:
-                href = aTag['href']
-                text = aTag.get_text()
-                href = Utils().checkURLformat(url,href)
-                r = Resource()
-                r.setAlt('aTag')
-                r.setUrl(href)
-                r.setText(text.strip())
-                self.webpageInfo.setResource(r)
-                print("href : "+ str(r.getUrl()))
-                print("text :"+str(r.getText()))
-            """
 
             return self.webpageInfo.getResources()

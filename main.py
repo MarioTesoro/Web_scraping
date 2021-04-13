@@ -17,7 +17,7 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://www.ansa.it/']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://it.xhamster.com/']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 downlaod_path = Utils().getDownloadPath()
 print(downlaod_path)
@@ -34,14 +34,13 @@ loadingtime = 7
 #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
 language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
 print(language)
+c=1
 for url in urls:
     htmlanalyzer = HTMLanalyzer()
     cssanalyzer = CSSanalyzer()
     downloader = Downloader()
     #set url,set id
     webPageInfo = WebpageInfo()
-    #urlPath= urlparse(url)
-    #print(urlPath)
     #richiesta al sito web effettuare controllo
     driver.get(url)#check if driver
     driver.maximize_window()
@@ -87,27 +86,37 @@ for url in urls:
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
         resourceFound = htmlanalyzer.resourceFinder(page,url)
         print(len(resourceFound))
+        parsedURL=Utils().parseUrl(url)
+        cwd =os.getcwd()
+        srcFolder =  cwd+ os.path.sep+"src"+os.path.sep
+        hrefFolder = cwd + os.path.sep+"href"+os.path.sep
+        if os.path.exists(srcFolder) and os.path.exists(hrefFolder):
+            #join set() css e html
+            print(cwd)
+            print(srcFolder)
+            print(hrefFolder)
+            print("---------------------------------------------------------------------\n")
+            #webPageInfo.printResources()
+            
+            counter=1
+            resources = webPageInfo.getResources()
+            print(len(resources))
+            
+            for resource in resources:
+                try:
+                        #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
+                    result=downloader.resourcesDown(resource,counter,srcFolder,hrefFolder)
+                    counter = counter+1
+                    
+                except:
+                    print("exception")
         
-        #join set() css e html
-        print("---------------------------------------------------------------------\n")
-        #webPageInfo.printResources()
+            #se la pagina è la stessa altrimenti append
+            webPageInfo.toCSV('csvFile'+str(c))
+            c=c+1
+        else:
+            print("no existing directory")
         
-        counter=1
-        resources = webPageInfo.getResources()
-        print(len(resources))
-        
-        for resource in resources:
-            try:
-                    #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
-                result=downloader.resourcesDown(resource,counter)
-                counter = counter+1
-                
-            except:
-                print("exception")
-    
-        #se la pagina è la stessa altrimenti append
-        webPageInfo.toCSV('csvFile')
-
 
         """
         #funzione che torna indietro il piu possibile 

@@ -6,19 +6,24 @@ from model.resource import *
 class Downloader:
     #metodo che in base ai formati noti dei file scarica il loro contenuto inoltre popola dei dati inerenti ai file gli oggetti 
     #di tipo Resource e li restituisce al set
-    def resourcesDown(self,resource : Resource,counter):
+    def resourcesDown(self,resource : Resource,counter,srcFolder,hrefFolder):
         url =resource.getUrl()
         print(url)
         #nel file csv scrivo tutto
         filename = os.path.basename(url)
         resource.setFileName(filename)
         format = None
+        if resource.tagName == 'a':
+           folder= hrefFolder
+        else:
+            folder =srcFolder
+
         if(url.endswith("/") or url.endswith(".js") or url.endswith(".css") or url.endswith("html") or url.endswith("htm")):
             resource.setFormat(format)
         elif(url!=None):
             im = requests.get(url)
             if(im.ok):
-                resource.setStatus(im.status_code)
+                resource.setStatus(str(im.status_code))
                 print("Filename: "+filename)
                 #controllare
                 if('jpg' in filename):
@@ -45,7 +50,7 @@ class Downloader:
                     stringedCounter = str(counter)
                     print(stringedCounter + format)
                     try:
-                        with open(stringedCounter + format, 'wb') as f:
+                        with open(folder + stringedCounter + format, 'wb') as f:
                                 print('Writing: ', stringedCounter + format)
                                 f.write(im.content) 
                                 f.close   
@@ -55,7 +60,7 @@ class Downloader:
                             #scrivere un file di log
                         pass
             else:
-                resource.setStatus(im.status_code)
+                resource.setStatus(str(im.status_code))
                 
                 print("URL:" +str(im.status_code),url)   
         else:
