@@ -63,7 +63,7 @@ for url in urls:
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,10,30)
         page = driver.page_source
-        """
+        
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
         sheets = cssanalyzer.findCssSheets(url,page)
         print(sheets)
@@ -83,7 +83,7 @@ for url in urls:
             print("css not found")
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
-        """
+        
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
         resourceFound = htmlanalyzer.resourceFinder(page,url)
         print(len(resourceFound))
