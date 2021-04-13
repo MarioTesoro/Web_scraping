@@ -1,9 +1,0 @@
-    
-    var d = document, e = d.createElement('img'),
-        p = d.getElementsByTagName('body')[0];
-        e.src = '//tra.neodatagroup.com/cm?sid=1009&pv=next&eid=6075a4f32e6047.93475639&rnd=512612442';
-        e.border = '0';
-        e.width = '0';
-        e.height = '0';
-        e.style = ' z-index: -1; position: absolute; ';
-        p.appendChild(e);
