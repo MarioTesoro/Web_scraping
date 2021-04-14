@@ -38,7 +38,7 @@ class HTMLanalyzer:
             # Calculate new scroll height and compare with last scroll height
             new_height = driver.execute_script("return document.body.scrollHeight")
             print(new_height, last_height)
-            input("qui")
+            
             if abs(new_height - last_height)<=5:#fixing?
                 # If heights are the same it will exit the function
                 return
@@ -51,8 +51,7 @@ class HTMLanalyzer:
             parsedURL = urlparse(url)
             netloc = parsedURL.netloc
             scheme =parsedURL.scheme
-            path = parsedURL.path
-            par = parsedURL.params
+            
             #discutere con o senza path
             #shorterLink =scheme+"://"+netloc+path
             shorterLink =scheme+"://"+netloc
@@ -161,28 +160,11 @@ class HTMLanalyzer:
         return '/%s' % '/'.join(components)
     
     #pagination component
-    def goNext(self,nextHrefs,found):
+    def findGoNext(self,driver,nextHrefs):
         if len(nextHrefs)>0:
             for elem in nextHrefs:
                 try:
-                    elem.click()
-                    print("click")
-                    return elem
-                except WebDriverException:
-                    print( "Elemento non cliccabile")
-                    pass
-        return False
-    
-        
-    def goBack(self,driver,previousHrefs):
-        if len(previousHrefs)>0:
-            for elem in previousHrefs:
-                selenium_element = driver.find_element_by_xpath(elem)
-                driver.execute_script("arguments[0].scrollIntoView();", selenium_element)
-                try:
-                    print("click")
-                    time.sleep(5)
-                    selenium_element.click()
+                    self.click(driver,5,elem)
                     return elem
                 except WebDriverException:
                     print( "Elemento non cliccabile")
@@ -190,7 +172,55 @@ class HTMLanalyzer:
         else:
             return "NoElements"
         return False
-    
+        
+    def findGoBack(self,driver,previousHrefs):
+        if len(previousHrefs)>0:
+            for elem in previousHrefs: 
+                try:
+                    self.click(driver,5,elem)
+                    return elem
+                except WebDriverException:
+                    print( "Elemento non cliccabile")
+                    pass
+        else:
+            return "NoElements"
+        return False
+
+    def click(self,driver,delay,xpath):
+        selen_elem =driver.find_element_by_xpath(xpath)
+        print(selen_elem)
+        driver.execute_script("arguments[0].scrollIntoView();", selen_elem)
+        selen_elem.click()
+        print("click: ")
+        time.sleep(5)
+        return driver.current_url
+
+        
+    def goBack(self,driver,previousHrefs):
+        xpath = self.findGoBack(driver,previousHrefs)
+        while xpath!=False:
+            if xpath == "NoElements":
+                print("NoElements")
+                break
+            try:
+                self.click(driver,5,xpath)
+            except WebDriverException:
+                print( "Elemento non più cliccabile,cercando di nuovo1")
+                return "research"
+                    
+    def goNext(self,driver,nextHrefs):
+        #funzione che  va avanti il piu possibile 
+        xpath = self.findGoNext(driver,nextHrefs)
+        while xpath!=False:
+            if xpath == "NoElements":
+                print("NoElements")
+                break
+            try:
+                self.click(driver,5,xpath)
+            except WebDriverException:
+                print( "Elemento non più cliccabile,cercando di nuovo")
+                break
     def showMore(self,moreHrefs):
         return
 
+                

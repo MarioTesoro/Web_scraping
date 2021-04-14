@@ -12,13 +12,15 @@ from controller.Downloader import *
 from model.webpageInfo import *
 from selenium.common.exceptions import WebDriverException
 
+
+
 #misurazione dei tempi
 start_time = time.time()
 
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://it.xhamster.com/4']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://it.xhamster.com/2']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 downlaod_path = Utils().getDownloadPath()
 print(downlaod_path)
@@ -38,15 +40,27 @@ print(language)
 #translatedNext =
 #translatedPrevious =
 c=1
+#attributo che simboleggia il go back 1 volta per sito web
+firstTime=True
+
 for url in urls:
+    
     htmlanalyzer = HTMLanalyzer()
     cssanalyzer = CSSanalyzer()
     downloader = Downloader()
     #set url,set id
     webPageInfo = WebpageInfo()
     #richiesta al sito web effettuare controllo
+    #controllo che il sito web sia diverso per effettuare il goback
+    parsedURL = urlparse(url)
+    netloc = parsedURL.netloc
+    scheme =parsedURL.scheme
+    path = parsedURL.path
+    par = parsedURL.params
+    shorterLink =scheme+"://"+netloc
+    urlLen= len(shorterLink)
     driver.get(url)#check if driver
-    driver.maximize_window()
+    #driver.maximize_window()
     print(len(str(driver.page_source)))
     
    
@@ -64,7 +78,27 @@ for url in urls:
         
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,loadingtime,safetytime)
+        
+        #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
+        resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+        print(previousHrefs)
+        print(nextHrefs)
+        print(moreHrefs)
+       
+        #funzione che torna indietro il piu possibile ed effettua in caso una nuova ricerca delle risorse html
+        if firstTime:
+            out = htmlanalyzer.goBack(driver,previousHrefs)
+            print("out",out)
+            if(out == "research"):
+                resourceFound=set()
+                previousHrefs=[]
+                nextHrefs=[]
+                moreHrefs=[]
+                resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+                firstTime=False
+
         """
+        #analisi del  css
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
         sheets = cssanalyzer.findCssSheets(url,driver.page_source)
         print(sheets)
@@ -84,33 +118,7 @@ for url in urls:
             print("css not found")
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
-        """
-        #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
-        print(previousHrefs)
-        print(nextHrefs)
-        print(moreHrefs)
         
-        #funzione che torna indietro il piu possibile 
-        result = htmlanalyzer.goBack(driver,previousHrefs)
-        while result!=False:
-            if result == "NoElements":
-                print("NoElements")
-                break
-            try:
-                selen_elem =driver.find_element_by_xpath(result)
-                print(selen_elem)
-                driver.execute_script("arguments[0].scrollIntoView();", selen_elem)
-                selen_elem.click()
-                print("click")
-                time.sleep(5)
-            except WebDriverException:
-                print( "Elemento non più cliccabile")
-                break
-            
-        
-                
-        """   
         parsedURL = Utils().parseUrl(url)
         cwd =os.getcwd()
         srcFolder =  cwd+ os.path.sep+"src"+os.path.sep
@@ -139,24 +147,30 @@ for url in urls:
         else:
             print("no existing directory")
         """
+        
+        #funzione che  va avanti il piu possibile 
+        xpath = htmlanalyzer.findGoNext(driver,nextHrefs)
+        if xpath!=False:
+            time.sleep(5)
+            while xpath!=False:
+                if xpath == "NoElements":
+                    print("NoElements")
+                    break
+                try:
+                    newurl= htmlanalyzer.click(driver,5,xpath)
+                except WebDriverException:
+                    #non ripetere vai direttamente con la ricerca
+                    print( "Elemento non più cliccabile,cercando di nuovo")
+                    print(str(driver.current_url))
+                    index =urls.index(url)
+                    urls.insert(index+1,str(driver.current_url))
+                    print(urls)
+                    time.sleep(2)
+                    firstTime=False
+                    break
+                #funzione che  va avanti il piu possibile 
+        
                 
-            
-        
-        
-        """
-        #funzione che prosegue fino all'ultima pagina disponibile
-        result=True
-        nextElem= None
-        while result!=False:
-            result = prova.pagination(driver,url,"goNext",nextElem)
-            print(result)
-            if result == "NoElements":
-                print("controlla perchè non trova nessun elemento nella pagination")
-                break
-            nextElem=result
-            print(nextElem)
-            time.sleep(3)
-        """
         
         
         
