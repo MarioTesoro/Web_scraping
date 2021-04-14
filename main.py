@@ -10,6 +10,7 @@ import time
 from controller.CSSanalyzer import * 
 from controller.Downloader import *
 from model.webpageInfo import *
+from selenium.common.exceptions import WebDriverException
 
 #misurazione dei tempi
 start_time = time.time()
@@ -17,7 +18,7 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://it.xhamster.com/']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://www.ansa.it/']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 downlaod_path = Utils().getDownloadPath()
 print(downlaod_path)
@@ -34,6 +35,8 @@ loadingtime = 7
 #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
 language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
 print(language)
+#translatedNext =
+#translatedPrevious =
 c=1
 for url in urls:
     htmlanalyzer = HTMLanalyzer()
@@ -58,13 +61,12 @@ for url in urls:
         #fine misurazione tempi e stampa per eventuali test
         print("--- %s seconds ---" % (time.time() - start_time))
 
-
-        #metodo che scrolla dinamicamente la pagina fino al suo termine
-        htmlanalyzer.scroll(driver,10,30)
-        page = driver.page_source
         
+        #metodo che scrolla dinamicamente la pagina fino al suo termine
+        htmlanalyzer.scroll(driver,loadingtime,safetytime)
+        """
         #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
-        sheets = cssanalyzer.findCssSheets(url,page)
+        sheets = cssanalyzer.findCssSheets(url,driver.page_source)
         print(sheets)
         
         if(len(sheets)> 0):
@@ -82,19 +84,28 @@ for url in urls:
             print("css not found")
         #downlaod source code
         #funcs.sourceCodeDownloader(url,downlaod_path)
-        
+        """
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        resourceFound = htmlanalyzer.resourceFinder(page,url)
-        print(len(resourceFound))
-        parsedURL=Utils().parseUrl(url)
+        resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+        print(previousHrefs)
+        print(nextHrefs)
+        print(moreHrefs)
+        
+        #funzione che torna indietro il piu possibile 
+        result =True
+        while result!=False:
+            result = htmlanalyzer.goBack(driver,previousHrefs)
+            if result == "NoElements":
+                break
+        
+                
+        """   
+        parsedURL = Utils().parseUrl(url)
         cwd =os.getcwd()
         srcFolder =  cwd+ os.path.sep+"src"+os.path.sep
         hrefFolder = cwd + os.path.sep+"href"+os.path.sep
         if os.path.exists(srcFolder) and os.path.exists(hrefFolder):
             #join set() css e html
-            print(cwd)
-            print(srcFolder)
-            print(hrefFolder)
             print("---------------------------------------------------------------------\n")
             #webPageInfo.printResources()
             
@@ -116,28 +127,27 @@ for url in urls:
             c=c+1
         else:
             print("no existing directory")
-        
-
         """
-        #funzione che torna indietro il piu possibile 
-        result=True
-        while result:
-            result = prova.pagination(driver,url,"goBack")
-            print(result)
-            if result == "NoElements":
-                print("controlla perchè non trova nessun elemento nella pagination")
-                break
-            time.sleep(5)
+                
+            
+        
+        
+        """
         #funzione che prosegue fino all'ultima pagina disponibile
         result=True
-        while result:
-            result = prova.pagination(driver,url,"goNext")
+        nextElem= None
+        while result!=False:
+            result = prova.pagination(driver,url,"goNext",nextElem)
             print(result)
             if result == "NoElements":
                 print("controlla perchè non trova nessun elemento nella pagination")
                 break
-            time.sleep(5)
+            nextElem=result
+            print(nextElem)
+            time.sleep(3)
         """
+        
+        
         
             
             
