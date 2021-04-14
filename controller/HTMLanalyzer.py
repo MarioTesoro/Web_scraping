@@ -178,12 +178,12 @@ class HTMLanalyzer:
         if len(previousHrefs)>0:
             for elem in previousHrefs:
                 selenium_element = driver.find_element_by_xpath(elem)
-                ActionChains(driver).move_to_element(selenium_element).perform()
+                driver.execute_script("arguments[0].scrollIntoView();", selenium_element)
                 try:
                     print("click")
                     time.sleep(5)
                     selenium_element.click()
-                    input("ehiiiiiiiiiiiii")
+                    return elem
                 except WebDriverException:
                     print( "Elemento non cliccabile")
                     pass
