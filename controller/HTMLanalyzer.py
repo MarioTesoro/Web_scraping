@@ -46,6 +46,7 @@ class HTMLanalyzer:
     #metodo che ricerca src datasrc href e alt nei tag img video iframe e alt aggiungendoli al set di risorse comune tra analisi css e html
     def resourceFinder(self,driver,url,translatedNext,translatedPrevious,translatedMore):
             print("Beginning html parsing")
+            self.webpageInfo.clearResources()
             page = driver.page_source
             #parse url
             parsedURL = urlparse(url)
@@ -59,14 +60,6 @@ class HTMLanalyzer:
             nextHrefs =[]
             previousHrefs=[]
             moreHrefs =[]
-            folder=Utils().parseUrl(url)
-            try:
-                os.mkdir(os.path.join(os.getcwd(), folder))
-                os.mkdir(os.path.join(os.getcwd(), folder+ os.path.sep+"src"))
-                os.mkdir(os.path.join(os.getcwd(), folder +os.path.sep+"href"))
-            except:
-                pass
-            os.chdir(os.path.join(os.getcwd(), folder))
             soup = BeautifulSoup(page, 'html.parser')
             i=0
             if(url.endswith("/")):
@@ -162,7 +155,7 @@ class HTMLanalyzer:
     #pagination component
     def findGoNext(self,driver,nextHrefs):
         if len(nextHrefs)>0:
-            for elem in nextHrefs:
+            for elem in reversed(nextHrefs):
                 try:
                     self.click(driver,5,elem)
                     return elem
@@ -175,7 +168,7 @@ class HTMLanalyzer:
         
     def findGoBack(self,driver,previousHrefs):
         if len(previousHrefs)>0:
-            for elem in previousHrefs: 
+            for elem in reversed(previousHrefs): 
                 try:
                     self.click(driver,5,elem)
                     return elem

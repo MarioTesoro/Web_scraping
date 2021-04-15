@@ -83,3 +83,23 @@ class Downloader:
         except:
             return False
         return True
+
+    def mkDirForUrl(self,url,c):
+        folder=Utils().parseUrl(url)
+        cwd = os.getcwd()
+        #controllo che le cartelle abbiano il suddetto path
+        srcFolder =  cwd +os.path.sep+folder +str(c)+ os.path.sep+"src"+os.path.sep
+        hrefFolder = cwd +os.path.sep+folder +str(c)+ os.path.sep+"href"+os.path.sep
+        print(srcFolder)
+        print(hrefFolder)
+        try:
+            if not os.path.exists(srcFolder) and  not os.path.exists(hrefFolder):
+                os.mkdir(os.path.join(os.getcwd(), folder+str(c)))
+                os.mkdir(srcFolder)
+                os.mkdir(hrefFolder)
+            else:
+                print("not ok")
+        except:
+            pass
+        return srcFolder,hrefFolder
+        #os.chdir(os.path.join(os.getcwd(), folder))

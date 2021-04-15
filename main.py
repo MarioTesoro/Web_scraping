@@ -20,7 +20,7 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://it.xhamster.com/2']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://it.xhamster.com/3']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 downlaod_path = Utils().getDownloadPath()
 print(downlaod_path)
@@ -42,9 +42,8 @@ print(language)
 c=1
 #attributo che simboleggia il go back 1 volta per sito web
 firstTime=True
-
+download =True
 for url in urls:
-    
     htmlanalyzer = HTMLanalyzer()
     cssanalyzer = CSSanalyzer()
     downloader = Downloader()
@@ -65,11 +64,11 @@ for url in urls:
     
    
     try: 
-        print("ciao")
+        print("")
     except Exception as e:
         print(e.__cause__)
     finally:
-        print("end")
+        print("")
         #chiusura driver
         #driver.close()
         #fine misurazione tempi e stampa per eventuali test
@@ -84,7 +83,8 @@ for url in urls:
         print(previousHrefs)
         print(nextHrefs)
         print(moreHrefs)
-       
+        print(firstTime)
+        
         #funzione che torna indietro il piu possibile ed effettua in caso una nuova ricerca delle risorse html
         if firstTime:
             out = htmlanalyzer.goBack(driver,previousHrefs)
@@ -97,33 +97,28 @@ for url in urls:
                 resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
                 firstTime=False
 
-        """
-        #analisi del  css
-        #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
-        sheets = cssanalyzer.findCssSheets(url,driver.page_source)
-        print(sheets)
-        
-        if(len(sheets)> 0):
-            #per ogni link trovato
-            for sheetURL in sheets:
-                print(sheetURL)
-                #metodo che cerca gli url nelle classi css e li inserisce in un set
-                
-                webPageInfo.extendResources(cssanalyzer.cssParser(sheetURL,url))
-                print("---------------------------------------------------------------------\n")
-            print(len(webPageInfo.getResources()))
-            #webPageInfo.toCSV(1)
-            #time.sleep(5)        
-        else:
-            print("css not found")
-        #downlaod source code
-        #funcs.sourceCodeDownloader(url,downlaod_path)
-        
-        parsedURL = Utils().parseUrl(url)
-        cwd =os.getcwd()
-        srcFolder =  cwd+ os.path.sep+"src"+os.path.sep
-        hrefFolder = cwd + os.path.sep+"href"+os.path.sep
-        if os.path.exists(srcFolder) and os.path.exists(hrefFolder):
+        if download:
+            #analisi del  css
+            #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
+            sheets = cssanalyzer.findCssSheets(url,driver.page_source)
+            print(sheets)
+            
+            if(len(sheets)> 0):
+                #per ogni link trovato
+                for sheetURL in sheets:
+                    print(sheetURL)
+                    #metodo che cerca gli url nelle classi css e li inserisce in un set
+                    
+                    webPageInfo.extendResources(cssanalyzer.cssParser(sheetURL,url))
+                    print("---------------------------------------------------------------------\n")
+                print(len(webPageInfo.getResources()))
+                #webPageInfo.toCSV(1)
+                #time.sleep(5)        
+            else:
+                print("css not found")
+            #downlaod source code
+            #funcs.sourceCodeDownloader(url,downlaod_path)
+            
             #join set() css e html
             print("---------------------------------------------------------------------\n")
             #webPageInfo.printResources()
@@ -131,47 +126,52 @@ for url in urls:
             counter=1
             resources = webPageInfo.getResources()
             print(len(resources))
+            #se il sito è uguale al precedente non scaricare
             
+            srcFolder,hrefFolder = downloader.mkDirForUrl(url,c)
             for resource in resources:
                 try:
-                        #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
+                    #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
                     result=downloader.resourcesDown(resource,counter,srcFolder,hrefFolder)
                     counter = counter+1
-                    
+                        
                 except:
                     print("exception")
-        
+            
             #se la pagina è la stessa altrimenti append
-            webPageInfo.toCSV('csvFile'+str(c))
-            c=c+1
-        else:
-            print("no existing directory")
-        """
+            webPageInfo.toCSV(netloc+str(c))
+        download=True
+        
         
         #funzione che  va avanti il piu possibile 
+        
+       
         xpath = htmlanalyzer.findGoNext(driver,nextHrefs)
-        if xpath!=False:
-            time.sleep(5)
-            while xpath!=False:
-                if xpath == "NoElements":
-                    print("NoElements")
-                    break
-                try:
-                    newurl= htmlanalyzer.click(driver,5,xpath)
-                except WebDriverException:
-                    #non ripetere vai direttamente con la ricerca
-                    print( "Elemento non più cliccabile,cercando di nuovo")
-                    print(str(driver.current_url))
-                    index =urls.index(url)
-                    urls.insert(index+1,str(driver.current_url))
-                    print(urls)
-                    time.sleep(2)
-                    firstTime=False
-                    break
-                #funzione che  va avanti il piu possibile 
+        print(xpath)
+        if xpath!=None or xpath!="NoElements":
+            print( "Elemento cliccato,aggiungendo un 'altra sub page agli url da cercare")
+            print(str(driver.current_url))
+            try:
+                #trova l'ultima occorrenza di quel sito 
+                index=''.join(urls).rindex(url)
+            except:
+                #altrimenti aggiungilo nella posizione immediatamente successiva a questa
+                index =urls.index(url)
+            #trova l'indice dell' ultima occorrenza e non della prima
+
+            urls.insert(index+1,str(driver.current_url))
+            print(urls)
+            time.sleep(2)
+            firstTime=False
+            if url == driver.current_url:
+                download=False
+        #funzione che  va avanti il piu possibile 
+        c=c+1
+        webPageInfo.clearResources()
         
                 
-        
+
+      
         
         
             

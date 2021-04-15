@@ -45,7 +45,6 @@ class Utils:
     
     def parseUrl(self,url):
         parsed_url = urllib.parse.urlparse(url)
-        print(parsed_url.netloc)
         return parsed_url.netloc
     
     def getDownloadPath(self):

@@ -6,6 +6,8 @@ class WebpageInfo:
     resources = set()
     downloadPath = Utils().getDownloadPath()
     id = None 
+    def clearResources(self):
+        self.resources.clear()
 
     def __init__(self):
         resources=set()
