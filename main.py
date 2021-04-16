@@ -95,9 +95,10 @@ for url in urls:
                 nextHrefs=[]
                 moreHrefs=[]
                 resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
-                firstTime=False
+        firstTime=True
 
         if download:
+            
             #analisi del  css
             #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
             sheets = cssanalyzer.findCssSheets(url,driver.page_source)
@@ -136,10 +137,11 @@ for url in urls:
                     counter = counter+1
                         
                 except:
-                    print("exception")
+                    print("not downloadable")
             
             #se la pagina è la stessa altrimenti append
             webPageInfo.toCSV(netloc+str(c))
+           
         download=True
         
         

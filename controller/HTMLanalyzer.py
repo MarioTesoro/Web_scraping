@@ -68,9 +68,8 @@ class HTMLanalyzer:
             for resource in resources:
                 tagName = resource.name
                 link = None
-                href = 'noHref'
+                hrefLink = None
                 alt='noAlt'
-                text='noText'
                 dataSrc =resource.get('data-src')
                 src =resource.has_attr('src')
                 href = resource.has_attr('href')
@@ -88,27 +87,27 @@ class HTMLanalyzer:
                     #formatting url
                     link = Utils().checkURLformat(url,link)
                 elif href:
-                    link = resource.get('href')
-                    print("href:",link )
+                    hrefLink = resource.get('href')
+                    print("href:",hrefLink )
                     alt = resource.get('alt','')
                     #formatting url
-                    link = Utils().checkURLformat(url,link)
+                    hrefLink = Utils().checkURLformat(url,hrefLink)
                     if text!=False and text!=None and len(text):
                         lowerText= text.lower()
-                        if (link[:linkLen] == shorterLink and "prev" in lowerText) or  (link[:linkLen] == shorterLink and translatedPrevious in lowerText):
+                        if (hrefLink[:linkLen] == shorterLink and "prev" in lowerText) or  (hrefLink[:linkLen] == shorterLink and translatedPrevious in lowerText):
                             prevXPATH = self.xpath_soup(resource)
                            
                             previousHrefs.append(prevXPATH)
                             print("lowertext ",lowerText)
-                            print('link[] ',link[:linkLen])
+                            print('link[] ',hrefLink[:linkLen])
                             print('shorterLink ',shorterLink)
                            
-                        elif (link[:linkLen] == shorterLink and "next" in lowerText) or  (link[:linkLen] == shorterLink and translatedNext in lowerText):
+                        elif (hrefLink[:linkLen] == shorterLink and "next" in lowerText) or  (hrefLink[:linkLen] == shorterLink and translatedNext in lowerText):
                             nextXPATH=self.xpath_soup(resource)
                             
                             nextHrefs.append(nextXPATH)
                             print("lowertext ",lowerText)
-                            print('link[] ',link[:linkLen])
+                            print('link[] ',hrefLink[:linkLen])
                             print('shorterLink ',shorterLink)
                             
                         """
@@ -121,16 +120,13 @@ class HTMLanalyzer:
                             print('shorterLink ',shorterLink)
                             input("insert")
                         """
-                
-                    
-                
-    
                 r = Resource()
                 r.setTagName(str(tagName))
                 r.setAlt(alt)
                 r.setUrl(link)
                 r.setText(text.strip())
-                r.printAll()
+                r.setHref(hrefLink)
+                #r.printAll()
                 self.webpageInfo.setResource(r)
 
             return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs

@@ -44,7 +44,7 @@ class WebpageInfo:
         downloaded=0
         with open(self.downloadPath+os.path.sep+ str(filename)+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
             writer = csv.writer(out_f, delimiter=';')
-            writer.writerow(['ID','TAG NAME','URL','NOME FILE','NOME ATTUALE','TESTO ALT','TESTO NEL TAG','FORMATO','STATUS'])
+            writer.writerow(['ID','TAG NAME','URL','NOME FILE','NOME ATTUALE','TESTO ALT','HREF','TESTO NEL TAG','FORMATO','STATUS'])
             
             for res in self.resources:
                 r = Resource()
@@ -64,7 +64,7 @@ class WebpageInfo:
                     video+=1
                 else:
                     others+=1
-                writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getText(),r.getFormat(),status])
+                writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getHref(),r.getText(),r.getFormat(),status])
                 numberOfRows+=1 
             out_f.close()
         print("------------------------------Statistiche------------------------")

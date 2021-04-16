@@ -60,8 +60,7 @@ class Downloader:
                             #scrivere un file di log
                         pass
             else:
-                resource.setStatus(str(im.status_code))
-                
+                resource.setStatus(str(im.status_code))       
                 print("URL:" +str(im.status_code),url)   
         else:
             resource.setFormat(format)
