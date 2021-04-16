@@ -65,8 +65,8 @@ class WebpageInfo:
                 else:
                     others+=1
                 writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getHref(),r.getText(),r.getFormat(),status])
-                numberOfRows+=1 
-            out_f.close()
+                numberOfRows+=1
+        out_f.close()
         print("------------------------------Statistiche------------------------")
         print("Risorse ricercate",str(numberOfRows))
         print("Risorse con status 200",str(downloaded))
@@ -77,5 +77,28 @@ class WebpageInfo:
         print("Risorse con tag video:",str(video/numberOfRows)+"%")
         print("Risorse con altri tag:",str(others/numberOfRows)+"%")
             #implementare le statistiche
+        
+
+    def appendToDataset(self,url):
+        if os.path.isfile('BigFile.csv'):
+            with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'a', newline='',encoding="utf-8") as out_f:
+                writer = csv.writer(out_f, delimiter=',')
+                for resource in self.getResources():
+                    writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
+            out_f.close()
+            return
+        else:
+            try:
+                with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
+                    writer = csv.writer(out_f, delimiter=',')
+                    writer.writerow(['URL','NOME FILE','NOME ATTUALE','TESTO ALT','HREF','TESTO NEL TAG'])
+                    for resource in self.getResources():
+                        writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
+                out_f.close()
+            except:
+                print("close current file")
+                pass
+            return
+            
            
 

@@ -25,6 +25,7 @@ class Utils:
             else:
                 continue
         return
+
     #metodo che verifica il foromato degli url concatenando lo schema e il nome dell'host in maniera standard
     def checkURLformat(self,url,link):
         if link!=None:
