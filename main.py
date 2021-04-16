@@ -20,7 +20,8 @@ start_time = time.time()
 #url = input("Type website url: ")
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://it.xhamster.com/3']#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+urls=['https://it.xhamster.com/3']
+#https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 try:
     driver = webdriver.Chrome(ChromeDriverManager().install())
 except:
@@ -28,7 +29,7 @@ except:
 
 
 #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
-safetytime = 30
+safetytime = 60
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
 loadingtime = 7
 #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
@@ -126,11 +127,11 @@ for url in urls:
             print(len(resources))
             #se il sito è uguale al precedente non scaricare
             
-            srcFolder,hrefFolder = downloader.mkDirForUrl(url,c)
+            srcFolder = downloader.mkDirForUrl(url,c)
             for resource in resources:
                 try:
                     #metodo che dato il set di risorse le scarica nel formato "corretto" migliorabile
-                    result=downloader.resourcesDown(resource,counter,srcFolder,hrefFolder)
+                    result=downloader.resourcesDown(resource,counter,srcFolder)
                     counter = counter+1
                         
                 except:

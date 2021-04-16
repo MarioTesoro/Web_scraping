@@ -6,17 +6,14 @@ from model.resource import *
 class Downloader:
     #metodo che in base ai formati noti dei file scarica il loro contenuto inoltre popola dei dati inerenti ai file gli oggetti 
     #di tipo Resource e li restituisce al set
-    def resourcesDown(self,resource : Resource,counter,srcFolder,hrefFolder):
+    def resourcesDown(self,resource : Resource,counter,srcFolder):
         url =resource.getUrl()
         print(url)
         #nel file csv scrivo tutto
         filename = os.path.basename(url)
         resource.setFileName(filename)
         format = None
-        if resource.tagName == 'a':
-           folder= hrefFolder
-        else:
-            folder =srcFolder
+        folder =srcFolder
 
         if(url.endswith("/") or url.endswith(".js") or url.endswith(".css") or url.endswith("html") or url.endswith("htm")):
             resource.setFormat(format)
@@ -51,10 +48,10 @@ class Downloader:
                     print(stringedCounter + format)
                     try:
                         with open(folder + stringedCounter + format, 'wb') as f:
-                                print('Writing: ', stringedCounter + format)
+                                print('Writing: ', folder + stringedCounter + format)
                                 f.write(im.content) 
                                 f.close   
-                        resource.setNewFilename(stringedCounter + format)
+                        resource.setNewFilename(folder + stringedCounter + format)
                     except:
                         print(stringedCounter)
                             #scrivere un file di log
@@ -88,17 +85,14 @@ class Downloader:
         cwd = os.getcwd()
         #controllo che le cartelle abbiano il suddetto path
         srcFolder =  cwd +os.path.sep+folder +str(c)+ os.path.sep+"src"+os.path.sep
-        hrefFolder = cwd +os.path.sep+folder +str(c)+ os.path.sep+"href"+os.path.sep
         print(srcFolder)
-        print(hrefFolder)
         try:
-            if not os.path.exists(srcFolder) and  not os.path.exists(hrefFolder):
+            if not os.path.exists(srcFolder):
                 os.mkdir(os.path.join(os.getcwd(), folder+str(c)))
                 os.mkdir(srcFolder)
-                os.mkdir(hrefFolder)
             else:
                 print("not ok")
         except:
             pass
-        return srcFolder,hrefFolder
+        return srcFolder
         #os.chdir(os.path.join(os.getcwd(), folder))

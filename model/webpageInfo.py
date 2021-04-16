@@ -82,7 +82,7 @@ class WebpageInfo:
     def appendToDataset(self,url):
         if os.path.isfile('BigFile.csv'):
             with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'a', newline='',encoding="utf-8") as out_f:
-                writer = csv.writer(out_f, delimiter=',')
+                writer = csv.writer(out_f)
                 for resource in self.getResources():
                     writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
             out_f.close()
@@ -90,7 +90,7 @@ class WebpageInfo:
         else:
             try:
                 with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
-                    writer = csv.writer(out_f, delimiter=',')
+                    writer = csv.writer(out_f)
                     writer.writerow(['URL','NOME FILE','NOME ATTUALE','TESTO ALT','HREF','TESTO NEL TAG'])
                     for resource in self.getResources():
                         writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
