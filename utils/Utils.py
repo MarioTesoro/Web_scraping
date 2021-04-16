@@ -3,28 +3,27 @@ import os
 import csv
 class Utils:
     #metodo che legge per ogni file .csv nella directory impostata il relativo contenuto e restituisce un array di url e id(da incapsulare)
-    def getCSVfromdir(self,directoryPath):
+    def getCSVfromdir(self,directoryPath,csvName):
         numberOfRows = 1
+        listofExistingsite = []
+        listofID =[]
         #directory = r'C:\Users\admin'
         for filename in os.listdir(directoryPath):
-            if filename.endswith(".csv"):
+            if filename ==csvName:
                 with open(filename ,'r') as r_out_f:
                     reader = csv.reader(r_out_f, delimiter=';')
                     #qui viene controllata la prima riga, ovvero l'header del file
                     row1 = next(reader)
-                    if len(row1)== 2 and row1[0] =='ID' and row1[1] =='URL':
+                    if len(row1)== 8 and row1[1] =='ID' and row1[2] =='URL':
                         #qui estratti gli Url già presenti nel file
-                        #e il numero di righe presenti
-                        listofExistingsite = []
-                        listofID =[]
+                        #e il numero di righe presenti    
                         for rows in reader:
-                            listofID.append(rows[0])
-                            listofExistingsite.append(rows[1])
+                            listofID.append(rows[1])
+                            listofExistingsite.append(rows[2])
                             numberOfRows += 1
                         r_out_f.close()
-            else:
-                continue
-        return
+                        break
+        return listofExistingsite,listofID
 
     #metodo che verifica il foromato degli url concatenando lo schema e il nome dell'host in maniera standard
     def checkURLformat(self,url,link):

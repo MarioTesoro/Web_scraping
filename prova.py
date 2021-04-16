@@ -4,20 +4,8 @@ import selenium
 from urllib.parse import urlparse
 from selenium.common.exceptions import WebDriverException
 import csv
+from utils.Utils import *
 
-"""urlPath= urlsplit(url)
-values = parse_qs(urlsplit(url).query)
-print(values)
-#anche questo per ricomporre l'url
-o = urlparse(url)
-query = parse_qs(o.query)
-# extract the URL without query parameters
-urlz = o._replace(query=None).geturl()
-print(urlz)
-
-if (urlz in url):
-    print(True)
-    """
 #metodo che in base all'usage impostato torna indietro fintanto che è possibile(verosimilmente prima pagina) e successivamente scorre pagina per pagina
 #da testare
 def pagination(driver,url,usage,webElement):
@@ -67,6 +55,5 @@ def pagination(driver,url,usage,webElement):
                     print( "Elemento non cliccabile")
                     pass
     return False
-
 
 

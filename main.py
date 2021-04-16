@@ -16,8 +16,12 @@ from selenium.common.exceptions import WebDriverException
 
 #misurazione dei tempi
 start_time = time.time()
-
-#url = input("Type website url: ")
+#import urls e id
+current_dir=os.getcwd()
+urls,urlsID = Utils().getCSVfromdir(current_dir,"input.csv")
+print(urls)
+print(urlsID)
+#inizio fase di analisi
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
 urls=['https://it.xhamster.com/3']
@@ -56,7 +60,8 @@ for url in urls:
     par = parsedURL.params
     shorterLink =scheme+"://"+netloc
     urlLen= len(shorterLink)
-    driver.get(url)#check if driver
+    driver.get(url)
+    #rendere il driver non minimizzabile o perde il focus e non prosegue
     #driver.maximize_window()
     print(len(str(driver.page_source)))
     
