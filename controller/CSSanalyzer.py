@@ -7,6 +7,7 @@ from utils.Utils import *
 
 class CSSanalyzer:
     webpageInfo = WebpageInfo()    
+    """
     # metodo che ricerca i fogli css leggendo l'head della struttura html della pagina e restituisce un set di url ricavati
     def findCssSheets(self,url,page):
             if(url.endswith("/")):
@@ -29,6 +30,7 @@ class CSSanalyzer:
                         cssPath.add(href)
                         #print(cssPath)
             return cssPath
+        """
 
     #metodo che dati in input gli url dei fogli di stile trovati effettua uno scraping dei tag richiesti come ad esempio url()
     #restituisce un set di url trovati nei fogli

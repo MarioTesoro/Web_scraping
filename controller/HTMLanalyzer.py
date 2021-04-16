@@ -60,8 +60,10 @@ class HTMLanalyzer:
             nextHrefs =[]
             previousHrefs=[]
             moreHrefs =[]
+            cssLinks=set()
             soup = BeautifulSoup(page, 'html.parser')
             i=0
+            #importante per evitare che venga concatenato male
             if(url.endswith("/")):
                 url=url[:-1]
             resources = soup.find_all(recursive=True)
@@ -92,6 +94,10 @@ class HTMLanalyzer:
                     alt = resource.get('alt','')
                     #formatting url
                     hrefLink = Utils().checkURLformat(url,hrefLink)
+                    if(tagName== "link" and hrefLink.endswith(".css")):
+                        #un link css viene aggiunto per il parser css ma è inutile fare di esso una risorsa 
+                        cssLinks.add(hrefLink)
+                        continue
                     if text!=False and text!=None and len(text):
                         lowerText= text.lower()
                         if (hrefLink[:linkLen] == shorterLink and "prev" in lowerText) or  (hrefLink[:linkLen] == shorterLink and translatedPrevious in lowerText):
@@ -129,7 +135,7 @@ class HTMLanalyzer:
                 #r.printAll()
                 self.webpageInfo.setResource(r)
 
-            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs
+            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs,cssLinks
 
     
     def xpath_soup(self,element):

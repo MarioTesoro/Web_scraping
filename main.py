@@ -82,7 +82,7 @@ for url in urls:
         htmlanalyzer.scroll(driver,loadingtime,safetytime)
         
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+        resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
         print(previousHrefs)
         print(nextHrefs)
         print(moreHrefs)
@@ -97,16 +97,13 @@ for url in urls:
                 previousHrefs=[]
                 nextHrefs=[]
                 moreHrefs=[]
-                resourceFound,previousHrefs,nextHrefs,moreHrefs = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+                resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
         firstTime=True
 
         if download:
-            
             #analisi del  css
-            #metodo che nella pagina html cerca i tag link contenenti css migliorabile link[:3]== .css 
-            sheets = cssanalyzer.findCssSheets(url,driver.page_source)
+            #metodo che nella pagina html cerca i tag link contenenti css  
             print(sheets)
-            
             if(len(sheets)> 0):
                 #per ogni link trovato
                 for sheetURL in sheets:
