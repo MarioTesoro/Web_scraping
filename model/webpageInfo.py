@@ -70,30 +70,46 @@ class WebpageInfo:
         print("------------------------------Statistiche------------------------")
         print("Risorse ricercate",str(numberOfRows))
         print("Risorse con status 200",str(downloaded))
-        print("Risorse trovate dall'analizzatore css:",str(css/numberOfRows)+"%")
-        print("Risorse trovate dall'analizzatore html:",str((numberOfRows- css)/numberOfRows)+"%")
-        print("Risorse con tag a:",str(a/numberOfRows)+"%")
-        print("Risorse con tag img:",str(img/numberOfRows)+"%")
-        print("Risorse con tag video:",str(video/numberOfRows)+"%")
-        print("Risorse con altri tag:",str(others/numberOfRows)+"%")
+        print("Risorse trovate dall'analizzatore css:",str(css/numberOfRows*100)+"%")
+        print("Risorse trovate dall'analizzatore html:",str((numberOfRows- css)/numberOfRows*100)+"%")
+        print("Risorse con tag a:",str(a/numberOfRows*100)+"%")
+        print("Risorse con tag img:",str(img/numberOfRows*100)+"%")
+        print("Risorse con tag video:",str(video/numberOfRows*100)+"%")
+        print("Risorse con altri tag:",str(others/numberOfRows*100)+"%")
             #implementare le statistiche
         
 
-    def appendToDataset(self,url):
+    def appendToDataset(self,netloc):
         if os.path.isfile('BigFile.csv'):
             with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'a', newline='',encoding="utf-8") as out_f:
                 writer = csv.writer(out_f)
                 for resource in self.getResources():
-                    writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
+                    alt=resource.getAlt()
+                    text =resource.getText()
+                    filename =resource.getFileName()
+                    if filename!=None:
+                        writer.writerow([15,netloc,filename])
+                    if alt!=None:
+                        writer.writerow([15,netloc,alt])
+                    if text!=None:
+                        writer.writerow([15,netloc,text])
             out_f.close()
             return
         else:
             try:
                 with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
                     writer = csv.writer(out_f)
-                    writer.writerow(['URL','NOME FILE','NOME ATTUALE','TESTO ALT','HREF','TESTO NEL TAG'])
+                    writer.writerow(['VALUE','HOSTNAME','TEXT'])
                     for resource in self.getResources():
-                        writer.writerow([url,resource.getFileName(),resource.getNewFilename(),resource.getAlt(),resource.getHref(),resource.getText()])
+                        alt=resource.getAlt()
+                        text =resource.getText()
+                        filename =resource.getFileName()
+                        if filename!=None:
+                            writer.writerow([15,netloc,filename])
+                        if alt!=None:
+                            writer.writerow([15,netloc,alt])
+                        if text!=None:
+                            writer.writerow([15,netloc,text])
                 out_f.close()
             except:
                 print("close current file")

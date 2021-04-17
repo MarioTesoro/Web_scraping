@@ -17,21 +17,26 @@ from selenium.common.exceptions import WebDriverException
 #misurazione dei tempi
 start_time = time.time()
 #import urls e id
+"""
 current_dir=os.getcwd()
 urls,urlsID = Utils().getCSVfromdir(current_dir,"input.csv")
 print(urls)
 print(urlsID)
+if not urls or not urlsID:
+    print("urls are empty or id empty")
+    os._exit(0)
+"""
 #inizio fase di analisi
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
-urls=['https://it.xhamster.com/3']
+#https://www.xnxx.com/search/italiana
+urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3',"https://www.ansa.it/"]
 #https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 try:
     driver = webdriver.Chrome(ChromeDriverManager().install())
 except:
     print("Controlla la connessione internet")
-
-
+loop =False
 #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
 safetytime = 60
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
@@ -44,6 +49,7 @@ print(language)
 c=1
 #attributo che simboleggia il go back 1 volta per sito web
 firstTime=True
+#attributo che evita che il sito venga nuovamente scaricato se è stato già trovato 
 download =True
 for url in urls:
     htmlanalyzer = HTMLanalyzer()
@@ -60,7 +66,12 @@ for url in urls:
     par = parsedURL.params
     shorterLink =scheme+"://"+netloc
     urlLen= len(shorterLink)
-    driver.get(url)
+    if loop==False:
+        driver.get(url)
+    else:
+        download=True
+        loop=False
+        continue
     #rendere il driver non minimizzabile o perde il focus e non prosegue
     #driver.maximize_window()
     print(len(str(driver.page_source)))
@@ -75,7 +86,7 @@ for url in urls:
         #chiusura driver
         #driver.close()
         #fine misurazione tempi e stampa per eventuali test
-        print("--- %s seconds ---" % (time.time() - start_time))
+       
 
         
         #metodo che scrolla dinamicamente la pagina fino al suo termine
@@ -141,7 +152,7 @@ for url in urls:
             
             #se la pagina è la stessa altrimenti append
             webPageInfo.toCSV(netloc+str(c))
-            webPageInfo.appendToDataset(url)
+            webPageInfo.appendToDataset(netloc)
         download=True
         
         
@@ -153,6 +164,7 @@ for url in urls:
         if xpath!=None or xpath!="NoElements":
             print( "Elemento cliccato,aggiungendo un 'altra sub page agli url da cercare")
             print(str(driver.current_url))
+            """
             try:
                 #trova l'ultima occorrenza di quel sito 
                 index=''.join(urls).rindex(url)
@@ -160,16 +172,22 @@ for url in urls:
                 #altrimenti aggiungilo nella posizione immediatamente successiva a questa
                 index =urls.index(url)
             #trova l'indice dell' ultima occorrenza e non della prima
-
-            urls.insert(index+1,str(driver.current_url))
+            """
+            print(c)
+            urls.insert(c,str(driver.current_url))
             print(urls)
             time.sleep(2)
             firstTime=False
+            
             if url == driver.current_url:
                 download=False
+                #se l'elemento precedente è anche uguale vuol dire che sta andando in loop dunque se possibile proseguire con un altro url
+                if urls[c-2] == url:
+                    loop =True
         #funzione che  va avanti il piu possibile 
         c=c+1
         webPageInfo.clearResources()
+        print("--- %s seconds ---" % (time.time() - start_time))
         
                 
 

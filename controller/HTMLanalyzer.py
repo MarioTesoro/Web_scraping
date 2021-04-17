@@ -71,7 +71,7 @@ class HTMLanalyzer:
                 tagName = resource.name
                 link = None
                 hrefLink = None
-                alt='noAlt'
+                alt=None
                 dataSrc =resource.get('data-src')
                 src =resource.has_attr('src')
                 href = resource.has_attr('href')

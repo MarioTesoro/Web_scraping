@@ -55,5 +55,3 @@ def pagination(driver,url,usage,webElement):
                     print( "Elemento non cliccabile")
                     pass
     return False
-
-
