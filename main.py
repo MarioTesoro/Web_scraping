@@ -185,8 +185,6 @@ for url in urls:
                 #se l'elemento precedente è anche uguale vuol dire che sta andando in loop dunque se possibile proseguire con un altro url
                 if urls[c-2] == url:
                     loop =True
-                    driver.close()
-                
         #funzione che  va avanti il piu possibile 
         c=c+1
         webPageInfo.clearResources()
