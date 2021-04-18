@@ -32,18 +32,15 @@ print("Web scraping analyisis")
 #https://www.xnxx.com/search/italiana
 urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3',"https://www.ansa.it/"]
 #https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
-try:
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-except:
-    print("Controlla la connessione internet")
+
 loop =False
 #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
 safetytime = 60
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
 loadingtime = 7
 #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
-language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
-print(language)
+#language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
+#print(language)
 #translatedNext =
 #translatedPrevious =
 c=1
@@ -67,7 +64,11 @@ for url in urls:
     shorterLink =scheme+"://"+netloc
     urlLen= len(shorterLink)
     if loop==False:
-        driver.get(url)
+        try:
+            driver = webdriver.Chrome(ChromeDriverManager().install())
+            driver.get(url)
+        except:
+            print("Controlla la connessione internet")
     else:
         download=True
         loop=False
@@ -184,12 +185,13 @@ for url in urls:
                 #se l'elemento precedente è anche uguale vuol dire che sta andando in loop dunque se possibile proseguire con un altro url
                 if urls[c-2] == url:
                     loop =True
+                    driver.close()
+                
         #funzione che  va avanti il piu possibile 
         c=c+1
         webPageInfo.clearResources()
         print("--- %s seconds ---" % (time.time() - start_time))
-        
-                
+driver.close()    
 
       
         
