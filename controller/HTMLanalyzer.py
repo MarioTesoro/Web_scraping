@@ -100,7 +100,7 @@ class HTMLanalyzer:
                         continue
                     if text!=False and text!=None and len(text):
                         lowerText= text.lower()
-                        if (hrefLink[:linkLen] == shorterLink and "prev" in lowerText) or  (hrefLink[:linkLen] == shorterLink and translatedPrevious in lowerText):
+                        if (hrefLink[:linkLen] == shorterLink and "prev" in lowerText) or  (hrefLink[:linkLen] == shorterLink and translatedPrevious in lowerText) or (hrefLink[:linkLen] == shorterLink and "precedente" in lowerText):
                             prevXPATH = self.xpath_soup(resource)
                            
                             previousHrefs.append(prevXPATH)
@@ -183,11 +183,11 @@ class HTMLanalyzer:
 
     def click(self,driver,delay,xpath):
         selen_elem =driver.find_element_by_xpath(xpath)
-        print(selen_elem)
         driver.execute_script("arguments[0].scrollIntoView();", selen_elem)
+        time.sleep(1)
         selen_elem.click()
         print("click: ")
-        time.sleep(5)
+        time.sleep(4)
         return driver.current_url
 
         

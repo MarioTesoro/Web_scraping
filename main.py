@@ -30,7 +30,7 @@ if not urls or not urlsID:
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
 #https://www.xnxx.com/search/italiana
-urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3',"https://www.ansa.it/"]
+urls=["https://it.pornhub.com/video?page=2"]
 #https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 loop =False
@@ -38,6 +38,7 @@ loop =False
 safetytime = 60
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
 loadingtime = 7
+driver = webdriver.Chrome(ChromeDriverManager().install())
 #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
 #language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
 #print(language)
@@ -65,7 +66,6 @@ for url in urls:
     urlLen= len(shorterLink)
     if loop==False:
         try:
-            driver = webdriver.Chrome(ChromeDriverManager().install())
             driver.get(url)
         except:
             print("Controlla la connessione internet")
@@ -92,13 +92,16 @@ for url in urls:
         
         #metodo che scrolla dinamicamente la pagina fino al suo termine
         htmlanalyzer.scroll(driver,loadingtime,safetytime)
+        #inizializzo nuovamente le variabili 
+        resourceFound=set()
+        previousHrefs=[]
+        nextHrefs=[]
+        moreHrefs=[]
+        print("resfound",len(resourceFound))
+        print("resfound",len(webPageInfo.getResources()))
         
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
         resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
-        print(previousHrefs)
-        print(nextHrefs)
-        print(moreHrefs)
-        print(firstTime)
         
         #funzione che torna indietro il piu possibile ed effettua in caso una nuova ricerca delle risorse html
         if firstTime:
@@ -111,7 +114,6 @@ for url in urls:
                 moreHrefs=[]
                 resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
         firstTime=True
-
         if download:
             #analisi del  css
             #metodo che nella pagina html cerca i tag link contenenti css  
@@ -121,7 +123,6 @@ for url in urls:
                 for sheetURL in sheets:
                     print(sheetURL)
                     #metodo che cerca gli url nelle classi css e li inserisce in un set
-                    
                     webPageInfo.extendResources(cssanalyzer.cssParser(sheetURL,url))
                     print("---------------------------------------------------------------------\n")
                 print(len(webPageInfo.getResources()))
@@ -133,6 +134,7 @@ for url in urls:
             #funcs.sourceCodeDownloader(url,downlaod_path)
             
             #join set() css e html
+            webPageInfo.extendResources(resourceFound)
             print("---------------------------------------------------------------------\n")
             #webPageInfo.printResources()
             
@@ -159,7 +161,7 @@ for url in urls:
         
         #funzione che  va avanti il piu possibile 
         
-       
+        print(nextHrefs)
         xpath = htmlanalyzer.findGoNext(driver,nextHrefs)
         print(xpath)
         if xpath!=None or xpath!="NoElements":
