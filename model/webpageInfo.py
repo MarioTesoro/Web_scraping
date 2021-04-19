@@ -67,18 +67,30 @@ class WebpageInfo:
                 writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getHref(),r.getText(),r.getFormat(),status])
                 numberOfRows+=1
         out_f.close()
-        print("------------------------------Statistiche------------------------")
-        print("Risorse ricercate",str(numberOfRows))
-        print("Risorse con status 200",str(downloaded))
-        print("Risorse trovate dall'analizzatore css:",str(css/numberOfRows*100)+"%")
-        print("Risorse trovate dall'analizzatore html:",str((numberOfRows- css)/numberOfRows*100)+"%")
-        print("Risorse con tag a:",str(a/numberOfRows*100)+"%")
-        print("Risorse con tag img:",str(img/numberOfRows*100)+"%")
-        print("Risorse con tag video:",str(video/numberOfRows*100)+"%")
-        print("Risorse con altri tag:",str(others/numberOfRows*100)+"%")
-            #implementare le statistiche
+        self.writeStatistics(filename,numberOfRows,downloaded,css,a,img,video,others)
+    
+    def writeStatistics(self,filename,numberOfRows,downloaded,css,a,img,video,others):
+        cssRatio=css/numberOfRows*100
+        htmlRatio = (numberOfRows- css)/numberOfRows*100
+        aRatio=a/numberOfRows*100
+        imgRatio= img/numberOfRows*100
+        videoRatio= video/numberOfRows*100
+        othersRatio= others/numberOfRows*100
+        try:
+            with open(self.downloadPath+os.path.sep+ str(filename)+'.txt' ,'w',encoding="utf-8") as out_f:
+                out_f.write("Risorse ricercate: %d\n" % numberOfRows)
+                out_f.write("Risorse con status 200: %d\n" % downloaded)
+                out_f.write("Risorse trovate dall'analizzatore css: %f %\n" % cssRatio)
+                out_f.write("Risorse trovate dall'analizzatore html: %f %\n" % htmlRatio)
+                out_f.write("Risorse con tag a: %f %\n" % aRatio)
+                out_f.write("Risorse con tag img: %f %\n" % imgRatio)
+                out_f.write("Risorse con tag video: %f %\n" % videoRatio)
+                out_f.write("Risorse con altri tag: %f %\n" % othersRatio)
+                out_f.close()
+            return True
+        except:
+            return False
         
-
     def appendToDataset(self,netloc):
         if os.path.isfile('BigFile.csv'):
             with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'a', newline='',encoding="utf-8") as out_f:

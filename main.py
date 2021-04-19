@@ -30,7 +30,7 @@ if not urls or not urlsID:
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
 #https://www.xnxx.com/search/italiana
-urls=["https://it.pornhub.com/video?page=2"]
+urls=["https://www.xnxx.com/search/italiana/1"]
 #https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 loop =False
