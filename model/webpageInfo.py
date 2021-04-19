@@ -78,14 +78,14 @@ class WebpageInfo:
         othersRatio= others/numberOfRows*100
         try:
             with open(self.downloadPath+os.path.sep+ str(filename)+'.txt' ,'w',encoding="utf-8") as out_f:
-                out_f.write("Risorse ricercate: %d\n" % numberOfRows)
-                out_f.write("Risorse con status 200: %d\n" % downloaded)
-                out_f.write("Risorse trovate dall'analizzatore css: %f %\n" % cssRatio)
-                out_f.write("Risorse trovate dall'analizzatore html: %f %\n" % htmlRatio)
-                out_f.write("Risorse con tag a: %f %\n" % aRatio)
-                out_f.write("Risorse con tag img: %f %\n" % imgRatio)
-                out_f.write("Risorse con tag video: %f %\n" % videoRatio)
-                out_f.write("Risorse con altri tag: %f %\n" % othersRatio)
+                out_f.write("Risorse ricercate: {}\n" .format(numberOfRows) )
+                out_f.write("Risorse con status 200: {}\n" .format(downloaded))
+                out_f.write("Risorse trovate dall'analizzatore css: {} %\n" .format(cssRatio))
+                out_f.write("Risorse trovate dall'analizzatore html: {} %\n" .format(htmlRatio))
+                out_f.write("Risorse con tag a: {} %\n" .format(aRatio))
+                out_f.write("Risorse con tag img: {} %\n" .format(imgRatio))
+                out_f.write("Risorse con tag video: {} %\n" .format(videoRatio))
+                out_f.write("Risorse con altri tag: {} %\n" .format(othersRatio) )
                 out_f.close()
             return True
         except:
