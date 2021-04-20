@@ -33,7 +33,7 @@ class WebpageInfo:
             r= res
             r.printAll()
     #metodo che scrive in un file .csv le risorse trovate
-    def toCSV(self,filename):
+    def toCSV(self,filename,startTime):
         print("Writing: "+  str(filename)+'.csv')
         numberOfRows = 1
         css=0
@@ -67,17 +67,19 @@ class WebpageInfo:
                 writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getHref(),r.getText(),r.getFormat(),status])
                 numberOfRows+=1
         out_f.close()
-        self.writeStatistics(filename,numberOfRows,downloaded,css,a,img,video,others)
+        self.writeStatistics(filename,numberOfRows,downloaded,css,a,img,video,others,startTime)
     
-    def writeStatistics(self,filename,numberOfRows,downloaded,css,a,img,video,others):
+    def writeStatistics(self,filename,numberOfRows,downloaded,css,a,img,video,others,startTime):
         cssRatio=css/numberOfRows*100
         htmlRatio = (numberOfRows- css)/numberOfRows*100
         aRatio=a/numberOfRows*100
         imgRatio= img/numberOfRows*100
         videoRatio= video/numberOfRows*100
         othersRatio= others/numberOfRows*100
+        duration = time.time() - startTime
         try:
             with open(self.downloadPath+os.path.sep+ str(filename)+'.txt' ,'w',encoding="utf-8") as out_f:
+                out_f.write("Durata: {} secondi\n" .format(duration) )
                 out_f.write("Risorse ricercate: {}\n" .format(numberOfRows) )
                 out_f.write("Risorse con status 200: {}\n" .format(downloaded))
                 out_f.write("Risorse trovate dall'analizzatore css: {} %\n" .format(cssRatio))
@@ -85,7 +87,7 @@ class WebpageInfo:
                 out_f.write("Risorse con tag a: {} %\n" .format(aRatio))
                 out_f.write("Risorse con tag img: {} %\n" .format(imgRatio))
                 out_f.write("Risorse con tag video: {} %\n" .format(videoRatio))
-                out_f.write("Risorse con altri tag: {} %\n" .format(othersRatio) )
+                out_f.write("Risorse con altri tag: {} %\n" .format(othersRatio))
                 out_f.close()
             return True
         except:

@@ -100,21 +100,14 @@ class HTMLanalyzer:
                         continue
                     if text!=False and text!=None and len(text):
                         #prendo i primi 15 caratteri anzichè tutto il testo per migliorare i tempi
-                        lowerText= text[:15].lower()
+                        lowerText= text.lower()
                         if (hrefLink[:linkLen] == shorterLink):
                             if ("prev" in lowerText) or (translatedPrevious in lowerText) or ("precedente" in lowerText):
                                 prevXPATH = self.xpath_soup(resource)
                                 previousHrefs.append(prevXPATH)
-                                print("lowertext ",lowerText)
-                                print('link[] ',hrefLink[:linkLen])
-                                print('shorterLink ',shorterLink)
-                            elif ("next" in lowerText) or  (translatedNext in lowerText) or ("prossimo" in lowerText):
+                            if ("next" in lowerText) or  (translatedNext in lowerText) or ("prossimo" in lowerText):
                                 nextXPATH=self.xpath_soup(resource)
-                                
                                 nextHrefs.append(nextXPATH)
-                                print("lowertext ",lowerText)
-                                print('link[] ',hrefLink[:linkLen])
-                                print('shorterLink ',shorterLink)
                             
                         """
                         elif ("more" in lowerText) or  (translatedMore in lowerText):

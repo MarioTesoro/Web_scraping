@@ -14,8 +14,7 @@ from selenium.common.exceptions import WebDriverException
 
 
 
-#misurazione dei tempi
-start_time = time.time()
+
 #import urls e id
 """
 current_dir=os.getcwd()
@@ -30,7 +29,7 @@ if not urls or not urlsID:
 print("Web scraping analyisis")
 #https://www.ansa.it/ #vanno accettati i cookies
 #https://www.xnxx.com/search/italiana
-urls=["https://www.xnxx.com/search/italiana/1"]
+urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3',"https://www.ansa.it/","https://it.xhamster.com/3"]
 #https://it.xhamster.com/3#'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 
 loop =False
@@ -50,6 +49,8 @@ firstTime=True
 #attributo che evita che il sito venga nuovamente scaricato se è stato già trovato 
 download =True
 for url in urls:
+    #misurazione dei tempi
+    start_time = time.time()
     htmlanalyzer = HTMLanalyzer()
     cssanalyzer = CSSanalyzer()
     downloader = Downloader()
@@ -154,7 +155,7 @@ for url in urls:
                     print("not downloadable")
             
             #se la pagina è la stessa altrimenti append
-            webPageInfo.toCSV(netloc+str(c))
+            webPageInfo.toCSV(netloc+str(c),start_time)
             webPageInfo.appendToDataset(netloc)
         download=True
         
@@ -181,7 +182,7 @@ for url in urls:
             print(urls)
             time.sleep(2)
             firstTime=False
-            
+            #fix
             if url == driver.current_url:
                 download=False
                 #se l'elemento precedente è anche uguale vuol dire che sta andando in loop dunque se possibile proseguire con un altro url
@@ -190,7 +191,6 @@ for url in urls:
         #funzione che  va avanti il piu possibile 
         c=c+1
         webPageInfo.clearResources()
-        print("--- %s seconds ---" % (time.time() - start_time))
 driver.close()    
 
       
