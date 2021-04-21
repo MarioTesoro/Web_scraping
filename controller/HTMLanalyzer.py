@@ -105,7 +105,7 @@ class HTMLanalyzer:
                             if ("prev" in lowerText) or (translatedPrevious in lowerText) or ("precedente" in lowerText):
                                 prevXPATH = self.xpath_soup(resource)
                                 previousHrefs.append(prevXPATH)
-                            if ("next" in lowerText) or  (translatedNext in lowerText) or ("prossimo" in lowerText):
+                            elif ("next" in lowerText) or  (translatedNext in lowerText) or ("prossimo" in lowerText):
                                 nextXPATH=self.xpath_soup(resource)
                                 nextHrefs.append(nextXPATH)
                             
@@ -184,7 +184,7 @@ class HTMLanalyzer:
         return driver.current_url
 
         
-    def goBack(self,driver,previousHrefs):
+    """def goBack(self,driver,previousHrefs):
         xpath = self.findGoBack(driver,previousHrefs)
         while xpath!=False:
             if xpath == "NoElements":
@@ -195,8 +195,9 @@ class HTMLanalyzer:
             except WebDriverException:
                 print( "Elemento non più cliccabile,cercando di nuovo1")
                 return "research"
+                """
                     
-    def goNext(self,driver,nextHrefs):
+    """def goNext(self,driver,nextHrefs):
         #funzione che  va avanti il piu possibile 
         xpath = self.findGoNext(driver,nextHrefs)
         while xpath!=False:
@@ -207,7 +208,7 @@ class HTMLanalyzer:
                 self.click(driver,5,xpath)
             except WebDriverException:
                 print( "Elemento non più cliccabile,cercando di nuovo")
-                break
+                break"""
     def showMore(self,moreHrefs):
         return
 
