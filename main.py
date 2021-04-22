@@ -12,16 +12,14 @@ from controller.Downloader import *
 from model.webpageInfo import *
 from selenium.common.exceptions import WebDriverException
 
-def web_scraper(url):
+def web_scraper(url,loadingtime,safetytime):
     #inizio fase di analisi
     print("Web scraping analyisis")
     urls=[]
     urls.append(url)
+    #variabile che rappresenta l'eventuale stato di loop che ha il programma 
     loop =False
-    #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
-    safetytime = 60
-    #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
-    loadingtime = 7
+    #installazione driver
     driver = webdriver.Chrome(ChromeDriverManager().install())
     #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
     #language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
@@ -159,6 +157,7 @@ def web_scraper(url):
         c=c+1
         webPageInfo.clearResources()
     driver.close()
+    return urls
 
 
 
@@ -178,9 +177,13 @@ if not urls or not urlsID:
 
 urls=['https://it.xhamster.com/3']
 #https://it.xhamster.com/3 #'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+#tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
+safetytime = 60
+#tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
+loadingtime = 7
 
 for url in urls:
-    web_scraper(url)
+    web_scraper(url,loadingtime,safetytime)
         
             
             
