@@ -131,7 +131,8 @@ def web_scraper(url,loadingtime,safetytime):
                 except:
                     print("not downloadable")
             #se la pagina è la stessa altrimenti append
-            webPageInfo.toCSV(netloc+str(c),start_time)
+            docFileName = url.split('/')
+            webPageInfo.toCSV(netloc+str(c),start_time,docFileName[2],url)
             webPageInfo.appendToDataset(netloc)
         download=True    
         #funzione che  va avanti il piu possibile 
