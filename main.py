@@ -165,17 +165,15 @@ def web_scraper(url,loadingtime,safetytime):
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------
 #import urls e id
-"""
+
 current_dir=os.getcwd()
-urls,urlsID = Utils().getCSVfromdir(current_dir,"input.csv")
+urls,urlsID = Utils().getCSVfromdir(current_dir,"Master.csv")
 print(urls)
 print(urlsID)
 if not urls or not urlsID:
     print("urls are empty or id empty")
     os._exit(0)
-"""
-
-urls=['https://it.xhamster.com/3']
+#urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']
 #https://it.xhamster.com/3 #'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
 safetytime = 60

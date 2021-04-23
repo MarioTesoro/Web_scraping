@@ -14,12 +14,15 @@ class Utils:
                     reader = csv.reader(r_out_f, delimiter=';')
                     #qui viene controllata la prima riga, ovvero l'header del file
                     row1 = next(reader)
-                    if len(row1)== 8 and row1[1] =='ID' and row1[2] =='URL':
+                    #controllo sul numero dei campi ma viene sempre cambiato len(row1)== 8
+                    if  row1[0] =='ID' and row1[3] =='URL':
                         #qui estratti gli Url già presenti nel file
                         #e il numero di righe presenti    
                         for rows in reader:
-                            listofID.append(rows[1])
-                            listofExistingsite.append(rows[2])
+                            if rows[0]!='':
+                                listofID.append(rows[0])
+                            if rows[3]!='':
+                                listofExistingsite.append(rows[3])
                             numberOfRows += 1
                         r_out_f.close()
                         break
