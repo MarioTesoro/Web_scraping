@@ -94,7 +94,7 @@ class HTMLanalyzer:
                     alt = resource.get('alt','')
                     #formatting url
                     hrefLink = Utils().checkURLformat(url,hrefLink)
-                    if(tagName== "link" and hrefLink.endswith(".css")):
+                    if(tagName == "link" and hrefLink.endswith(".css")):
                         #un link css viene aggiunto per il parser css ma è inutile fare di esso una risorsa 
                         cssLinks.add(hrefLink)
                         continue

@@ -74,7 +74,8 @@ class WebpageInfo:
     
     def writeStatistics(self,filename,numberOfRows,downloaded,css,a,img,video,others,startTime,docFileName,url):
         cssRatio=css/numberOfRows*100
-        htmlRatio = (numberOfRows- css)/numberOfRows*100
+        htmlRes=numberOfRows- css
+        htmlRatio = htmlRes/numberOfRows*100
         aRatio=a/numberOfRows*100
         imgRatio= img/numberOfRows*100
         videoRatio= video/numberOfRows*100
@@ -96,32 +97,14 @@ class WebpageInfo:
         obj1.add_run("Durata: {} secondi\n" .format(duration))
         obj1.add_run("Risorse ricercate: {}\n" .format(numberOfRows))
         obj1.add_run("Risorse con status 200: {}\n" .format(downloaded))
-        obj1.add_run("Risorse trovate dall'analizzatore css: {} %\n" .format(cssRatio))
-        obj1.add_run("Risorse trovate dall'analizzatore html: {} %\n" .format(htmlRatio))
-        obj1.add_run("Risorse con tag a: {} %\n" .format(aRatio))
-        obj1.add_run("Risorse con tag img: {} %\n" .format(imgRatio))
-        obj1.add_run("Risorse con tag video: {} %\n" .format(videoRatio))
-        obj1.add_run("Risorse con altri tag: {} %\n" .format(othersRatio))
+        obj1.add_run("Risorse trovate dall'analizzatore css:{} -> {:.2f} %\n" .format(str(css),cssRatio))
+        obj1.add_run("Risorse trovate dall'analizzatore html:{} -> {:.2f} %\n" .format(str(htmlRes),htmlRatio))
+        obj1.add_run("Risorse con tag a: {} -> {:.2f} %\n" .format(str(a),aRatio))
+        obj1.add_run("Risorse con tag img: {} -> {:.2f} %\n" .format(str(img),imgRatio))
+        obj1.add_run("Risorse con tag video: {} -> {:.2f} %\n" .format(str(video),videoRatio))
+        obj1.add_run("Risorse con altri tag: {} -> {:.2f} %\n" .format(str(others),othersRatio))
         obj1.alignment = 0
         doc.save(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx')
-
-
-        #DOC STYLE
-        """try:
-            with open(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx','a',encoding="utf-8") as out_f:
-                out_f.write("Durata: {} secondi\n" .format(duration) )
-                out_f.write("Risorse ricercate: {}\n" .format(numberOfRows) )
-                out_f.write("Risorse con status 200: {}\n" .format(downloaded))
-                out_f.write("Risorse trovate dall'analizzatore css: {} %\n" .format(cssRatio))
-                out_f.write("Risorse trovate dall'analizzatore html: {} %\n" .format(htmlRatio))
-                out_f.write("Risorse con tag a: {} %\n" .format(aRatio))
-                out_f.write("Risorse con tag img: {} %\n" .format(imgRatio))
-                out_f.write("Risorse con tag video: {} %\n" .format(videoRatio))
-                out_f.write("Risorse con altri tag: {} %\n" .format(othersRatio))
-                out_f.close()
-            return True
-        except:
-            return False"""
         
     def appendToDataset(self,netloc):
         if os.path.isfile('BigFile.csv'):
@@ -129,13 +112,13 @@ class WebpageInfo:
                 writer = csv.writer(out_f)
                 for resource in self.getResources():
                     alt=resource.getAlt()
-                    text =resource.getText()
-                    filename =resource.getFileName()
-                    if filename!=None:
+                    text = resource.getText()
+                    filename = resource.getFileName()
+                    if filename!=None and filename.strip()!='':
                         writer.writerow([15,netloc,filename])
-                    if alt!=None:
+                    if alt!=None and filename.strip()!='':
                         writer.writerow([15,netloc,alt])
-                    if text!=None:
+                    if text!=None and text.strip()!='':
                         writer.writerow([15,netloc,text])
             out_f.close()
             return
@@ -148,11 +131,11 @@ class WebpageInfo:
                         alt=resource.getAlt()
                         text =resource.getText()
                         filename =resource.getFileName()
-                        if filename!=None:
+                        if filename!=None and filename.strip()!='':
                             writer.writerow([15,netloc,filename])
-                        if alt!=None:
+                        if alt!=None and alt.strip()!='':
                             writer.writerow([15,netloc,alt])
-                        if text!=None:
+                        if text!=None and text.strio()!='':
                             writer.writerow([15,netloc,text])
                 out_f.close()
             except:
