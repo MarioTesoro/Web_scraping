@@ -2,9 +2,8 @@ from model.resource import *
 from utils.Utils import *
 import csv
 import os
-import docx
-from docx.shared import RGBColor, Pt
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from model.statistics import Statistics
+
 class WebpageInfo:
     resources = set()
     downloadPath = Utils().getDownloadPath()
@@ -36,7 +35,7 @@ class WebpageInfo:
             r= res
             r.printAll()
     #metodo che scrive in un file .csv le risorse trovate
-    def toCSV(self,filename,startTime,docFileName,url):
+    def toCSV(self,filename,startTime,docFileName,url,detail):
         print("Writing: "+  str(filename)+'.csv')
         numberOfRows = 1
         css=0
@@ -70,9 +69,10 @@ class WebpageInfo:
                 writer.writerow([numberOfRows,tagName,r.getUrl(),r.getFileName(),r.getNewFilename(),alt,r.getHref(),r.getText(),r.getFormat(),status])
                 numberOfRows+=1
         out_f.close()
-        self.writeStatistics(filename,numberOfRows,downloaded,css,a,img,video,others,startTime,docFileName,url)
+        stats =self.writeStatistics(detail,filename,numberOfRows,downloaded,css,a,img,video,others,startTime,docFileName,url)
+        return stats
     
-    def writeStatistics(self,filename,numberOfRows,downloaded,css,a,img,video,others,startTime,docFileName,url):
+    def writeStatistics(self,write,filename,numberOfRows,downloaded,css,a,img,video,others,startTime,docFileName,url)->Statistics:
         cssRatio=css/numberOfRows*100
         htmlRes=numberOfRows- css
         htmlRatio = htmlRes/numberOfRows*100
@@ -81,30 +81,28 @@ class WebpageInfo:
         videoRatio= video/numberOfRows*100
         othersRatio= others/numberOfRows*100
         duration = time.time() - startTime
-
-        doc  = docx.Document(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx')
-        style = doc.styles['Normal']
-        style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        font = style.font
-        font.name = 'Times New Roman'
-        font.size = Pt(12)
-        heading = doc.add_paragraph()
-        heading.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        obj= doc.add_paragraph()
-        obj_run= obj.add_run("Statistiche web scraping: {} ".format(url))
-        obj_run.bold=True
-        obj1= doc.add_paragraph()
-        obj1.add_run("Durata: {} secondi\n" .format(duration))
-        obj1.add_run("Risorse ricercate: {}\n" .format(numberOfRows))
-        obj1.add_run("Risorse con status 200: {}\n" .format(downloaded))
-        obj1.add_run("Risorse trovate dall'analizzatore css:{} -> {:.2f} %\n" .format(str(css),cssRatio))
-        obj1.add_run("Risorse trovate dall'analizzatore html:{} -> {:.2f} %\n" .format(str(htmlRes),htmlRatio))
-        obj1.add_run("Risorse con tag a: {} -> {:.2f} %\n" .format(str(a),aRatio))
-        obj1.add_run("Risorse con tag img: {} -> {:.2f} %\n" .format(str(img),imgRatio))
-        obj1.add_run("Risorse con tag video: {} -> {:.2f} %\n" .format(str(video),videoRatio))
-        obj1.add_run("Risorse con altri tag: {} -> {:.2f} %\n" .format(str(others),othersRatio))
-        obj1.alignment = 0
-        doc.save(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx')
+        #oggetto statistics
+        stats = Statistics()
+        stats.setRes(numberOfRows)
+        stats.setDownloaded(downloaded)
+        stats.setCssRes(css)
+        stats.setCssRatio(cssRatio)
+        stats.setHtmlRes(htmlRes)
+        stats.setHtmlRatio(htmlRatio)
+        stats.setAres(a)
+        stats.setAratio(aRatio)
+        stats.setImgRes(img)
+        stats.setImgRatio(imgRatio)
+        stats.setVideoRes(video)
+        stats.setVideoratio(videoRatio)
+        stats.setOtherRes(others)
+        stats.setOtherRatio(othersRatio)
+        stats.setDuration(duration)
+        stats.setUrl(url)
+        #inizializzazione file doc
+        if write:
+            stats.writeToDoc(docFileName,True)
+        return stats
         
     def appendToDataset(self,netloc):
         if os.path.isfile('BigFile.csv'):
@@ -114,11 +112,11 @@ class WebpageInfo:
                     alt=resource.getAlt()
                     text = resource.getText()
                     filename = resource.getFileName()
-                    if filename!=None and filename.strip()!='':
+                    if filename!=None and str(filename).strip()!='':
                         writer.writerow([15,netloc,filename])
-                    if alt!=None and filename.strip()!='':
+                    if alt!=None and str(alt).strip()!='':
                         writer.writerow([15,netloc,alt])
-                    if text!=None and text.strip()!='':
+                    if text!=None and str(text).strip()!='':
                         writer.writerow([15,netloc,text])
             out_f.close()
             return
@@ -131,11 +129,11 @@ class WebpageInfo:
                         alt=resource.getAlt()
                         text =resource.getText()
                         filename =resource.getFileName()
-                        if filename!=None and filename.strip()!='':
+                        if filename!=None and str(filename).strip()!='':
                             writer.writerow([15,netloc,filename])
-                        if alt!=None and alt.strip()!='':
+                        if alt!=None and str(alt).strip()!='':
                             writer.writerow([15,netloc,alt])
-                        if text!=None and text.strip()!='':
+                        if text!=None and str(text).strip()!='':
                             writer.writerow([15,netloc,text])
                 out_f.close()
             except:

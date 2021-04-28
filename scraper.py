@@ -10,12 +10,14 @@ import time
 from controller.CSSanalyzer import * 
 from controller.Downloader import *
 from model.webpageInfo import *
+from model.statistics import Statistics
 from selenium.common.exceptions import WebDriverException
 
 def web_scraper(url,loadingtime,safetytime):
     #inizio fase di analisi
     print("Web scraping analyisis")
     urls=[]
+    statsList=[]
     urls.append(url)
     #variabile che rappresenta l'eventuale stato di loop che ha il programma 
     loop =False
@@ -132,7 +134,9 @@ def web_scraper(url,loadingtime,safetytime):
                     print("not downloadable")
             #se la pagina è la stessa altrimenti append
             docFileName = url.split('/')
-            webPageInfo.toCSV(netloc+str(c),start_time,docFileName[2],url)
+            #l'ultimo attributo indica se aggiungere al report le statistiche in detteaglio(True) o meno (False)
+            stats = webPageInfo.toCSV(netloc+str(c),start_time,docFileName[2],url,False)
+            statsList.append(stats)
             webPageInfo.appendToDataset(netloc)
         download=True    
         #funzione che  va avanti il piu possibile 
@@ -158,7 +162,7 @@ def web_scraper(url,loadingtime,safetytime):
         c=c+1
         webPageInfo.clearResources()
     driver.close()
-    return urls
+    return urls,statsList
 
 
 
@@ -174,16 +178,38 @@ print(urlsID)
 if not urls or not urlsID:
     print("urls are empty or id empty")
     os._exit(0)
-#urls=['https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3']
+#urls=['https://www.ansa.it/']
 #https://it.xhamster.com/3 #'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
 #tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
 safetytime = 60
 #tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
 loadingtime = 7
-
+totalStats=[]
+totalUrls=[]
 for url in urls:
-    web_scraper(url,loadingtime,safetytime)
-        
+    docFileName = url.split('/')
+    urlFound,statsList=web_scraper(url,loadingtime,safetytime)
+    #totalStats.extend(statsList)
+    #totalUrls.extend(urlFound)
+    totalRes=0
+    totalDownload=0
+    totalDuration=0
+    totalTagImg=0
+    totalTagvideo=0
+    for stats in statsList:
+        totalRes=totalRes+stats.getRes()
+        totalDownload=totalDownload+stats.getDownloaded()
+        totalDuration=totalDuration+stats.getDuration()
+        totalTagImg=totalTagImg+stats.getImgRes()
+        totalTagvideo=totalTagvideo+stats.getVideoRes()
+    finalStats=Statistics()
+    finalStats.setUrl(url)
+    finalStats.setRes(totalRes)
+    finalStats.setDownloaded(totalDownload)
+    finalStats.setDuration(totalDuration)
+    finalStats.setImgRes(totalTagImg)
+    finalStats.setVideoRes(totalTagvideo)
+    finalStats.writeToDoc(docFileName[2],False)
             
             
         
