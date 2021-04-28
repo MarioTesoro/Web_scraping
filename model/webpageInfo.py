@@ -135,7 +135,7 @@ class WebpageInfo:
                             writer.writerow([15,netloc,filename])
                         if alt!=None and alt.strip()!='':
                             writer.writerow([15,netloc,alt])
-                        if text!=None and text.strio()!='':
+                        if text!=None and text.strip()!='':
                             writer.writerow([15,netloc,text])
                 out_f.close()
             except:
