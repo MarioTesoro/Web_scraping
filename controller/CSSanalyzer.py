@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import re
-from model.webpageInfo import *
-from model.resource import *
+from Model.webpageInfo import *
+from Model.resource import *
 from utils.Utils import *
 
 class CSSanalyzer:
@@ -45,7 +45,8 @@ class CSSanalyzer:
             urls = re.findall('url\(([^)]+)\)',str(css))
             for res in urls:
                 r = Resource()
-                r.setAlt('fromCss')
+                r.setAlt(None)
+                r.setFromcss(True)
                 #sostituire con checkURLformat()
                 if (res[:5] == "http:" ) or (res[:6] == "https:"):
                     r.setUrl(res)

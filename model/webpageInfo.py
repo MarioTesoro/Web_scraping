@@ -1,8 +1,8 @@
-from model.resource import *
+from Model.resource import *
 from utils.Utils import *
 import csv
 import os
-from model.statistics import Statistics
+from Model.statistics import Statistics
 
 class WebpageInfo:
     resources = set()
@@ -44,7 +44,8 @@ class WebpageInfo:
         others=0
         a=0
         downloaded=0
-        with open(self.downloadPath+os.path.sep+ str(filename)+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
+        folder='WebSiteDetailCSV'
+        with open(self.downloadPath+os.path.sep+folder+os.path.sep+str(filename)+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
             writer = csv.writer(out_f, delimiter=';')
             writer.writerow(['ID','TAG NAME','URL','NOME FILE','NOME ATTUALE','TESTO ALT','HREF','TESTO NEL TAG','FORMATO','STATUS'])
             
@@ -54,7 +55,8 @@ class WebpageInfo:
                 alt =r.getAlt()
                 status =r.getStatus()
                 tagName=r.getTagName()
-                if alt=='fromCss':
+                isCss = r.getFromCss()
+                if isCss == True:
                     css+=1
                 if status == str(200):
                     downloaded+=1
@@ -112,34 +114,37 @@ class WebpageInfo:
                     alt=resource.getAlt()
                     text = resource.getText()
                     filename = resource.getFileName()
+                    path = resource.getNewFilename()
                     if filename!=None and str(filename).strip()!='':
-                        writer.writerow([15,netloc,filename])
+                        writer.writerow([15,netloc,filename,path])   
                     if alt!=None and str(alt).strip()!='':
-                        writer.writerow([15,netloc,alt])
-                    if text!=None and str(text).strip()!='':
-                        writer.writerow([15,netloc,text])
+                        writer.writerow([15,netloc,alt,'',''])   
+                    """if text!=None and str(text).strip()!='':
+                        writer.writerow([15,netloc,text,'',''])"""
+                    
             out_f.close()
-            return
+            return 
         else:
             try:
                 with open(self.downloadPath+os.path.sep+ str("BigFile")+'.csv' ,'w', newline='',encoding="utf-8") as out_f:
                     writer = csv.writer(out_f)
-                    writer.writerow(['VALUE','HOSTNAME','TEXT'])
+                    writer.writerow(['VALUE','HOSTNAME','TEXT','PATH','ANALYZED'])
                     for resource in self.getResources():
                         alt=resource.getAlt()
                         text =resource.getText()
                         filename =resource.getFileName()
+                        path = resource.getNewFilename()
                         if filename!=None and str(filename).strip()!='':
-                            writer.writerow([15,netloc,filename])
+                            writer.writerow([15,netloc,filename,path])
                         if alt!=None and str(alt).strip()!='':
-                            writer.writerow([15,netloc,alt])
-                        if text!=None and str(text).strip()!='':
-                            writer.writerow([15,netloc,text])
+                            writer.writerow([15,netloc,alt,'',''])
+                        """if text!=None and str(text).strip()!='':
+                            writer.writerow([15,netloc,text,'',''])"""         
                 out_f.close()
             except:
                 print("close current file")
                 pass
-            return
+            return 
             
            
 
