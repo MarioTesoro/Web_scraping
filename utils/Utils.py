@@ -10,7 +10,7 @@ class Utils:
         #directory = r'C:\Users\admin'
         for filename in os.listdir(directoryPath):
             if filename ==csvName:
-                with open(filename ,'r',encoding="utf-8") as r_out_f:
+                with open(filename ,'r') as r_out_f:
                     reader = csv.reader(r_out_f, delimiter=';')
                     #qui viene controllata la prima riga, ovvero l'header del file
                     row1 = next(reader)

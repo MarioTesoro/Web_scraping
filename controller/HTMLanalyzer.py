@@ -2,8 +2,8 @@ import time
 import os
 from utils.Utils import *
 from bs4 import BeautifulSoup
-from Model.resource import *
-from Model.webpageInfo import *
+from model.resource import *
+from model.webpageInfo import *
 from urllib.parse import urlparse
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
@@ -94,7 +94,7 @@ class HTMLanalyzer:
                     alt = resource.get('alt','')
                     #formatting url
                     hrefLink = Utils().checkURLformat(url,hrefLink)
-                    if(tagName== "link" and hrefLink.endswith(".css")):
+                    if(tagName == "link" and hrefLink.endswith(".css")):
                         #un link css viene aggiunto per il parser css ma è inutile fare di esso una risorsa 
                         cssLinks.add(hrefLink)
                         continue
