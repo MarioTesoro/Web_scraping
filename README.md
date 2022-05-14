@@ -1,7 +1,7 @@
 <!-- GETTING STARTED -->
 ## Web scaping tool
 
-This is a sperimental web scraping tool which allows the scaping of images and related text contained in the media tags of HTML in order to make analysis on the output.The tool creates for each page scraped a folder with all the website's images found in css an html, a BigFile.csv in order to make allow possible AI analyisis on them,a more detailed CSV with the resources found and optionally a .docx report with the statistics.The tool is made with Python, beautifulsoup and Selenium framework the scrape all tags and make automatic scraping like going through pages and manage infinite scroll pagination.
+This is an OSINT sperimental web scraping tool which allows the scaping of images and related text contained in the media tags of HTML in order to make analysis on the output.The tool creates for each page scraped a folder with all the website's images found in css an html, a BigFile.csv in order to make allow possible AI analyisis on them,a more detailed CSV with the resources found and optionally a .docx report with the statistics.The tool is made with Python, beautifulsoup and Selenium framework the scrape all tags and make automatic scraping like going through pages and manage infinite scroll pagination.
 
 *The tool needs a lot of improvements and bugfix.
 
