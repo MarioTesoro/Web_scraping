@@ -1,8 +1,8 @@
 import pywebcopy
 import requests
-from utils.Utils import *
+from utils import Utils
 import os
-from model.resource import *
+from Model.resource import *
 class Downloader:
     #metodo che in base ai formati noti dei file scarica il loro contenuto inoltre popola dei dati inerenti ai file gli oggetti 
     #di tipo Resource e li restituisce al set
@@ -81,14 +81,15 @@ class Downloader:
         return True
 
     def mkDirForUrl(self,url,c):
-        folder=Utils().parseUrl(url)
+        folder=Utils.Utils().parseUrl(url)
         cwd = os.getcwd()
         #controllo che le cartelle abbiano il suddetto path
-        srcFolder =  cwd +os.path.sep+folder +str(c)+ os.path.sep+"src"+os.path.sep
+        print(cwd)
+        srcFolder =cwd +os.path.sep+'ScrapingOutput'+os.path.sep+folder +str(c)+ os.path.sep+"src"+os.path.sep
         print(srcFolder)
         try:
             if not os.path.exists(srcFolder):
-                os.mkdir(os.path.join(os.getcwd(), folder+str(c)))
+                os.mkdir(os.path.join(cwd+os.path.sep+'ScrapingOutput', folder+str(c)))
                 os.mkdir(srcFolder)
             else:
                 print("not ok")

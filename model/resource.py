@@ -10,6 +10,7 @@ class Resource:
     text = None
     status = None
     href =None
+    fromCss=False
     #metodo fondamentale poichè nel set differenzia un oggetto dall'altro,va discussa una politica da adottare in merito
     def __eq__(self, other):
         r= Resource()
@@ -25,6 +26,8 @@ class Resource:
     def __hash__(self):
         return hash(self.url)
     #setters
+    def setFromcss(self,isCss):
+        self.fromCss =isCss
     def setUrl(self,url):
         self.url=url
     
@@ -50,6 +53,8 @@ class Resource:
     def setHref(self,href):
         self.href = href
     #getters
+    def getFromCss(self):
+        return self.fromCss
     def getUrl(self) -> str:
         return self.url
     

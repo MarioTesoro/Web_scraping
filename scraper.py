@@ -1,19 +1,19 @@
-import prova
 from selenium import webdriver
 from controller.HTMLanalyzer import *
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
-import requests
+from utils import Utils
 import os
 from urllib.parse import urlparse
 import time
 from controller.CSSanalyzer import * 
 from controller.Downloader import *
-from model.webpageInfo import *
-from model.statistics import Statistics
+from Model.webpageInfo import *
+from Model.statistics import Statistics
 from selenium.common.exceptions import WebDriverException
 
-def web_scraper(url,loadingtime,safetytime):
+def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
+    print("url",url)
     #inizio fase di analisi
     print("Web scraping analyisis")
     urls=[]
@@ -22,7 +22,13 @@ def web_scraper(url,loadingtime,safetytime):
     #variabile che rappresenta l'eventuale stato di loop che ha il programma 
     loop =False
     #installazione driver
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = None
+    #switch browsers
+    try:
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+    except:
+        driver =  webdriver.Firefox()
+        
     #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
     #language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
     #print(language)
@@ -52,6 +58,7 @@ def web_scraper(url,loadingtime,safetytime):
         urlLen= len(shorterLink)
         if loop==False:
             try:
+                
                 driver.get(url)
             except:
                 print("Controlla la connessione internet")
@@ -94,14 +101,6 @@ def web_scraper(url,loadingtime,safetytime):
                 continue
             else:
                 firstTime = False
-            """out = htmlanalyzer.goBack(driver,previousHrefs)
-            print("out",out)
-            if(out == "research"):
-                resourceFound=set()
-                previousHrefs=[]
-                nextHrefs=[]
-                moreHrefs=[]
-                resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")"""
         if download:
             #analisi del  css
             #metodo che nella pagina html cerca i tag link contenenti css  
@@ -134,8 +133,9 @@ def web_scraper(url,loadingtime,safetytime):
                     print("not downloadable")
             #se la pagina è la stessa altrimenti append
             docFileName = url.split('/')
+            print(url)
             #l'ultimo attributo indica se aggiungere al report le statistiche in detteaglio(True) o meno (False)
-            stats = webPageInfo.toCSV(netloc+str(c),start_time,docFileName[2],url,False)
+            stats = webPageInfo.toCSV(netloc+str(c),start_time,docFileName[2],url,detailedReport)
             statsList.append(stats)
             webPageInfo.appendToDataset(netloc)
         download=True    
@@ -158,58 +158,94 @@ def web_scraper(url,loadingtime,safetytime):
                 if urls[c-2] == url:
                     loop =True
                     firstTime=True
-        #funzione che  va avanti il piu possibile 
+        #funzione che  va avanti il piu possibile
+        if maxNumerOfPages!=False:
+            if c == maxNumerOfPages:
+                break
         c=c+1
         webPageInfo.clearResources()
     driver.close()
     return urls,statsList
 
-
-
-
-
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------
-#import urls e id
-
-current_dir=os.getcwd()
-urls,urlsID = Utils().getCSVfromdir(current_dir,"Master.csv")
-print(urls)
-print(urlsID)
-if not urls or not urlsID:
-    print("urls are empty or id empty")
-    os._exit(0)
-#urls=['https://www.ansa.it/']
-#https://it.xhamster.com/3 #'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
-#tempo massimo di durata dello scroll, va inserito per avere una soglia minima di sicurezza
-safetytime = 60
-#tempo di attesa caricamento pagina ,dipende dalla qualità della rete...
-loadingtime = 7
-totalStats=[]
-totalUrls=[]
-for url in urls:
-    docFileName = url.split('/')
-    urlFound,statsList=web_scraper(url,loadingtime,safetytime)
-    #totalStats.extend(statsList)
-    #totalUrls.extend(urlFound)
+def write_statistics(url,urlFound,statsList,docFileName):        
+    urlFound = set(urlFound)
     totalRes=0
     totalDownload=0
     totalDuration=0
     totalTagImg=0
     totalTagvideo=0
+    totalTagOthers=0
+    totalTagA=0
+    imgRatio= 0
+    videoRatio= 0
+    othersRatio= 0
+    aRatio=0
+    htmlRes=0
+    cssRes=0
     for stats in statsList:
         totalRes=totalRes+stats.getRes()
         totalDownload=totalDownload+stats.getDownloaded()
         totalDuration=totalDuration+stats.getDuration()
+        totalTagA=totalTagA + stats.getAres()
         totalTagImg=totalTagImg+stats.getImgRes()
         totalTagvideo=totalTagvideo+stats.getVideoRes()
+        totalTagOthers=totalTagOthers + stats.getOtherRes()
+        htmlRes=htmlRes + (stats.getRes()-stats.getCssRes())
+        cssRes = cssRes + stats.getCssRes()
+    imgRatio= totalTagImg/totalRes*100
+    videoRatio= totalTagvideo/totalRes*100
+    othersRatio= totalTagOthers/totalRes*100
+    aRatio= totalTagA/totalRes*100
+    cssRatio=cssRes/totalRes*100
+    htmlRatio = htmlRes/totalRes*100
     finalStats=Statistics()
     finalStats.setUrl(url)
     finalStats.setRes(totalRes)
+    finalStats.setNumberOfPages(len(urlFound))
     finalStats.setDownloaded(totalDownload)
     finalStats.setDuration(totalDuration)
     finalStats.setImgRes(totalTagImg)
     finalStats.setVideoRes(totalTagvideo)
+    finalStats.setOtherRes(totalTagOthers)
+    finalStats.setAres(totalTagA)
+    finalStats.setHtmlRes(htmlRes)
+    finalStats.setCssRes(cssRes)
+    #ratio
+    finalStats.setImgRatio(imgRatio)
+    finalStats.setVideoratio(videoRatio)
+    finalStats.setOtherRatio(othersRatio)
+    finalStats.setAratio(aRatio)
+    finalStats.setCssRatio(cssRatio)
+    finalStats.setHtmlRatio(htmlRatio)
     finalStats.writeToDoc(docFileName[2],False)
+
+def start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages):
+    #-----------------------------------------------------------------------------------------------------------------------------------------------------------
+    #import urls e id
+    #current_dir=os.getcwd()
+    #ut = Utils()
+    #urls,urlsID = ut.getCSVfromdir(current_dir,"Master.csv")
+    # print(urlsID)
+    # if not urls or not urlsID:
+    #     print("urls are empty or id empty")
+    #     os._exit(0)
+    if not urls:
+        print("urls are empty")
+        os._exit(0)
+    #urls=['https://www.ansa.it/']
+    #https://it.xhamster.com/3 #'https://www.ansa.it/'#'https://www.amazon.com/s?k=welder&page=3&qid=1617181389&ref=sr_pg_3' #'https://unsplash.com/' #'https://brave-goldberg-4b2f82.netlify.app' #'https://twitter.com/Twitter?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor' ''https://it.wikipedia.org/wiki/Pagina_principale''
+    for url in urls:
+        print("urls",url)
+        docFileName = url.split('/')
+
+        #l'ultimo parametro indica i dettagli del report se False sarà solo un'overview generica altrimenti se True di ogni pagina ci saranno stime più dettagliate
+        urlFound,statsList=web_scraper(url,loadingtime,safetytime,False,maxNumberOfPages)
+        #totalStats.extend(statsList)
+        #totalUrls.extend(urlFound)
+        if output:
+            write_statistics(url,urlFound,statsList,docFileName)
+
+        
             
             
         

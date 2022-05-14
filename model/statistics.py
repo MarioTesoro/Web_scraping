@@ -3,9 +3,11 @@ from docx.shared import RGBColor, Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import os
 from utils.Utils import *
+
 class Statistics:
-    downloadPath = Utils().getDownloadPath()
+    downloadPath ="/Reports"
     url=None
+    numberOfpages=None
     res=None
     downloaded=None
     cssRes =None
@@ -25,7 +27,13 @@ class Statistics:
 
 
     def writeToDoc(self,docFileName,detailed):
-            doc  = docx.Document(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx')
+            PATH = "Reports/Report "+docFileName+'.docx'
+            doc =None
+            if os.path.exists(PATH):
+                doc = docx.Document(PATH)
+            else:
+                doc = docx.Document()
+            print(PATH)
             style = doc.styles['Normal']
             style.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
             font = style.font
@@ -48,15 +56,18 @@ class Statistics:
                 obj1.add_run("Risorse con tag video: {} -> {:.2f} %\n" .format(str(self.getVideoRes()),self.getVideoratio()))
                 obj1.add_run("Risorse con altri tag: {} -> {:.2f} %\n" .format(str(self.getOtherRes()),self.getOtherRatio()))
             else:
+                obj1.add_run("Numero pagine esaminate: {} \n" .format(self.getNumberOfPages()))
                 obj1.add_run("Durata totale: {} secondi\n" .format(self.getDuration()))
                 obj1.add_run("Risorse totali ricercate: {}\n" .format(self.getRes()))
                 obj1.add_run("Risorse totali scaricate: {}\n" .format(self.getDownloaded()))
-                obj1.add_run("Risorse totali con tag img: {} \n" .format(str(self.getImgRes())))
-                obj1.add_run("Risorse totali con tag video: {}\n" .format(str(self.getVideoRes())))
+                obj1.add_run("Risorse totali trovate dall'analizzatore css:{} -> {:.2f} %\n" .format(str(self.getCssRes()),self.getCssRatio()))
+                obj1.add_run("Risorse totali trovate dall'analizzatore html:{} -> {:.2f} %\n" .format(str(self.getHtmlRes()),self.getHtmlRatio()))
+                obj1.add_run("Risorse totali con tag a: {} -> {:.2f} %\n" .format(str(self.getAres()),self.getAratio()))
+                obj1.add_run("Risorse totali con tag img: {}-> {:.2f}%\n" .format(str(self.getImgRes()),self.getImgRatio()))
+                obj1.add_run("Risorse totali con tag video: {} -> {:.2f}%\n" .format(str(self.getVideoRes()),self.getVideoratio()))
+                obj1.add_run("Risorse totali con altri tag: {} -> {:.2f}%\n" .format(str(self.getOtherRes()),self.getOtherRatio()))
             obj1.alignment = 0
-            doc.save(self.downloadPath+os.path.sep+"Report "+docFileName+'.docx')
-
-
+            doc.save(PATH)
 
 
 
@@ -68,6 +79,8 @@ class Statistics:
         self.downloaded=down
     def setUrl(self,url):
         self.url=url
+    def setNumberOfPages(self,numberOfpages):
+        self.numberOfpages= numberOfpages
     def setRes(self,res):
         self.res=res
     def setCssRes(self,cssRes):
@@ -101,6 +114,8 @@ class Statistics:
         return self.url
     def getRes(self):
         return self.res
+    def getNumberOfPages(self):
+        return self.numberOfpages
     def getDownloaded(self):
         return self.downloaded
     def getCssRes(self) :
