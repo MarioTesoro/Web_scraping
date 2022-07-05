@@ -60,6 +60,7 @@ class HTMLanalyzer:
             nextHrefs =[]
             previousHrefs=[]
             moreHrefs =[]
+            acceptButt = None 
             cssLinks=set()
             soup = BeautifulSoup(page, 'html.parser')
             i=0
@@ -72,11 +73,14 @@ class HTMLanalyzer:
                 link = None
                 hrefLink = None
                 alt=None
+                
                 dataSrc =resource.get('data-src')
                 src =resource.has_attr('src')
                 href = resource.has_attr('href')
-                
                 text = resource.get_text()
+                #AcceptButt
+                if "Accetta" in text or "Accept" in text:
+                    acceptButt = self.xpath_soup(resource)
                 if dataSrc!=None:
                     link= dataSrc
                     alt = resource.get('alt','')
@@ -128,7 +132,7 @@ class HTMLanalyzer:
                 #r.printAll()
                 self.webpageInfo.setResource(r)
 
-            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs,cssLinks
+            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs,cssLinks,acceptButt
 
     
     def xpath_soup(self,element):

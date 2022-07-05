@@ -6,7 +6,14 @@ import os
 INVALID_FILETYPE_MSG = "Error: Invalid file format. %s must be a .txt file."
 INVALID_PATH_MSG = "Error: Invalid file path/name. Path %s does not exist."
 
-def check_input(input) -> int:
+def check_browser(input) -> str:
+    input = str(input).strip().lower()
+    browsers=["chrome","firefox"]
+    for el in browsers:
+        if el == input:
+            return el
+
+def check_integer_input(input) -> int:
     if isinstance(input, int): 
         if input>0:
             return input
@@ -78,7 +85,10 @@ def args_parser():
                         help = "Defines a time t in order to make the scraper wait the full loading of a webpage.Default is 7 seconds")
     parser.add_argument("-mp","--maxpages",type = int, nargs = '?',
                         default = 100,
-                        help = "Defines a number n of pages to be scraped. Default is 100")    
+                        help = "Defines a number n of pages to be scraped. Default is 100") 
+    parser.add_argument("-b", "--browser", type = str, nargs = '?',
+                        default = "chrome",
+                        help = "Select the browser to use for scraping, the default one is Google Chrome. Are supported: chrome, firefox")  #tor
     print("Example: main.py -u https://www.ansa.it/ -s 20 -l 8 -mp 90 \nExample: main.py -f file.txt -o")              
  
     # parse the arguments from standard input
@@ -90,19 +100,21 @@ def args_parser():
     loadingTime = 7
     scrollTime = 60
     maxPages = 100
+    browser = "chrome"
     if args.output!=None:
         print(args.output)
         out=True
     if args.loadingtime!=None:
-        loadingTime =check_input(args.loadingtime)
+        loadingTime =check_integer_input(args.loadingtime)
     if args.maxpages!=None:
-        maxPages = check_input(args.maxpages)
+        maxPages = check_integer_input(args.maxpages)
     if args.scrolltime!=None:
-        scrollTime = check_input(args.scrolltime)
-
+        scrollTime = check_integer_input(args.scrolltime)
+    if args.browser!=None:
+        browser = check_browser(args.browser)
     #mutually exclusive args
     if args.file != None:
-        return read(args),out,scrollTime,loadingTime,maxPages
+        return read(args),out,scrollTime,loadingTime,maxPages,browser
     elif args.url != None:
-        return url(args),out,scrollTime,loadingTime,maxPages
+        return url(args),out,scrollTime,loadingTime,maxPages,browser
     

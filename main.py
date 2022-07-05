@@ -15,12 +15,12 @@ def main():
     #grado di dettaglio del report
     #detail=False
 
-    urls,output,safetytime,loadingtime,maxNumberOfPages= args_parser()
+    urls,output,safetytime,loadingtime,maxNumberOfPages,browser= args_parser()
     print(urls,output,safetytime,loadingtime,maxNumberOfPages)
     detail= False
     #scraping
     print(urls)
-    start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages)  
+    start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages,browser)  
 
 if __name__ == '__main__':    
     try:

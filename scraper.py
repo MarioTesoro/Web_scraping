@@ -1,3 +1,4 @@
+from matplotlib.pyplot import close
 from selenium import webdriver
 from controller.HTMLanalyzer import *
 from selenium.webdriver.common.keys import Keys
@@ -12,7 +13,10 @@ from Model.webpageInfo import *
 from Model.statistics import Statistics
 from selenium.common.exceptions import WebDriverException
 
-def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
+
+
+
+def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages,browser):
     print("url",url)
     #inizio fase di analisi
     print("Web scraping analyisis")
@@ -24,10 +28,21 @@ def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
     #installazione driver
     driver = None
     #switch browsers
-    try:
-        driver = webdriver.Chrome(ChromeDriverManager().install())
-    except:
-        driver =  webdriver.Firefox()
+    if browser == "chrome":
+        try:
+            driver = webdriver.Chrome(ChromeDriverManager().install())
+        except:
+            print("Chrome is not installed")
+    elif browser =="firefox":
+        try:
+            driver =  webdriver.Firefox() #TODO
+        except:
+            print("Firefox is not installed")
+    else:           
+        try:
+            driver = webdriver.Chrome(ChromeDriverManager().install())
+        except:
+            driver =  webdriver.Firefox()
         
     #controllo della lingua per eventuale traduzione dei tasti next e previous per la pagination
     #language = driver.execute_script("return window.navigator.userLanguage || window.navigator.language")
@@ -57,8 +72,7 @@ def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
         shorterLink =scheme+"://"+netloc
         urlLen= len(shorterLink)
         if loop==False:
-            try:
-                
+            try:       
                 driver.get(url)
             except:
                 print("Controlla la connessione internet")
@@ -70,7 +84,7 @@ def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
             c=c+1
             continue
         #rendere il driver non minimizzabile o perde il focus e non prosegue
-        #driver.maximize_window()
+        #driver.maximize_window()#da inserire 
         print(len(str(driver.page_source)))
 
         #metodo che scrolla dinamicamente la pagina fino al suo termine
@@ -84,11 +98,13 @@ def web_scraper(url,loadingtime,safetytime,detailedReport,maxNumerOfPages):
         print("resfound",len(webPageInfo.getResources()))
         
         #metodo che analizza la pagina html estrapolando gli src e gli href dai tag considerati sensibili e anche gli alt ed eventualmente test migliorabile
-        resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
+        resourceFound,previousHrefs,nextHrefs,moreHrefs,sheets,acceptButt = htmlanalyzer.resourceFinder(driver,url,"avanti","indietro","more")
         print(firstTime)
-        
         #funzione che torna indietro il piu possibile ed effettua in caso una nuova ricerca delle risorse html
         if firstTime:
+            print("AcceptButt",acceptButt)
+            if acceptButt:
+                htmlanalyzer.click(driver,1,acceptButt)
             print(previousHrefs)
             xpath = htmlanalyzer.findGoBack(driver,previousHrefs)
             print(xpath)
@@ -219,7 +235,7 @@ def write_statistics(url,urlFound,statsList,docFileName):
     finalStats.setHtmlRatio(htmlRatio)
     finalStats.writeToDoc(docFileName[2],False)
 
-def start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages):
+def start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages,browser):
     #-----------------------------------------------------------------------------------------------------------------------------------------------------------
     #import urls e id
     #current_dir=os.getcwd()
@@ -239,7 +255,7 @@ def start_scraper(urls,output,safetytime,loadingtime,detail,maxNumberOfPages):
         docFileName = url.split('/')
 
         #l'ultimo parametro indica i dettagli del report se False sarà solo un'overview generica altrimenti se True di ogni pagina ci saranno stime più dettagliate
-        urlFound,statsList=web_scraper(url,loadingtime,safetytime,False,maxNumberOfPages)
+        urlFound,statsList=web_scraper(url,loadingtime,safetytime,False,maxNumberOfPages,browser)
         #totalStats.extend(statsList)
         #totalUrls.extend(urlFound)
         if output:
