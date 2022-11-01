@@ -2,8 +2,8 @@ import time
 import os
 from utils.Utils import *
 from bs4 import BeautifulSoup
-from model.resource import *
-from model.webpageInfo import *
+from Model.resource import *
+from Model.webpageInfo import *
 from urllib.parse import urlparse
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.action_chains import ActionChains
@@ -60,6 +60,7 @@ class HTMLanalyzer:
             nextHrefs =[]
             previousHrefs=[]
             moreHrefs =[]
+            acceptButt = None 
             cssLinks=set()
             soup = BeautifulSoup(page, 'html.parser')
             i=0
@@ -72,11 +73,14 @@ class HTMLanalyzer:
                 link = None
                 hrefLink = None
                 alt=None
+                
                 dataSrc =resource.get('data-src')
                 src =resource.has_attr('src')
                 href = resource.has_attr('href')
-                
                 text = resource.get_text()
+                #AcceptButt
+                if "Accetta" in text or "Accept" in text:
+                    acceptButt = self.xpath_soup(resource)
                 if dataSrc!=None:
                     link= dataSrc
                     alt = resource.get('alt','')
@@ -94,7 +98,7 @@ class HTMLanalyzer:
                     alt = resource.get('alt','')
                     #formatting url
                     hrefLink = Utils().checkURLformat(url,hrefLink)
-                    if(tagName == "link" and hrefLink.endswith(".css")):
+                    if(tagName== "link" and hrefLink.endswith(".css")):
                         #un link css viene aggiunto per il parser css ma è inutile fare di esso una risorsa 
                         cssLinks.add(hrefLink)
                         continue
@@ -128,7 +132,7 @@ class HTMLanalyzer:
                 #r.printAll()
                 self.webpageInfo.setResource(r)
 
-            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs,cssLinks
+            return self.webpageInfo.getResources(),previousHrefs,nextHrefs,moreHrefs,cssLinks,acceptButt
 
     
     def xpath_soup(self,element):
